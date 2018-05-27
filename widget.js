@@ -49,6 +49,15 @@ class Widget {
   refresh() {
     return this.btt.do('refresh_widget', { uuid: this.uuid });
   }
+
+  /**
+   * Triggers the widget
+   */
+  click() {
+    return this.btt.do('execute_assigned_actions_for_trigger', {
+      uuid: this.uuid,
+    });
+  }
 }
 
 module.exports = Widget;

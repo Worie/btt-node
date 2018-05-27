@@ -1,11 +1,14 @@
 {
   "name": "btt-node",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A tool for managing BTT webserver easier, in nodejs",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Wojciech Połowniak",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch-polyfill": "^2.0.6"
+  }
 }
