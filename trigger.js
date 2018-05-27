@@ -21,11 +21,11 @@ class Trigger {
     // if this is a named trigger
     if (this.name) {
       // perform a named trigger execution
-      this.btt.do('trigger_named', { trigger_name: this.name });
+      return this.btt.do('trigger_named', { trigger_name: this.name });
     // if this was a generic trigger
     } else if (this.uuid) {
       // executre the actions for this trigger
-      this.btt.do('execute_assigned_actions_for_trigger', {
+      return this.btt.do('execute_assigned_actions_for_trigger', {
         uuid: this.uuid,
       });
     }
@@ -41,7 +41,7 @@ class Trigger {
     }
 
     // update the trigger with given json
-    this.btt.do('update_trigger', {
+    return this.btt.do('update_trigger', {
       uuid: this.uuid,
       json: JSON.stringify(data),
     });

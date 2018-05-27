@@ -40,14 +40,14 @@ class Widget {
     };
 
     // update current widget
-    this.btt.do('update_touch_bar_widget', updateData);
+    return this.btt.do('update_touch_bar_widget', updateData);
   }
 
   /**
    * Refreshes current widget
    */
   refresh() {
-    this.btt.do('refresh_widget', { uuid: this.uuid });
+    return this.btt.do('refresh_widget', { uuid: this.uuid });
   }
 }
 
