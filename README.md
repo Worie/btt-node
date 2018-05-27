@@ -1,4 +1,4 @@
-## btt-node
+## btt-node [![npm version](https://badge.fury.io/js/btt-node.svg)](https://badge.fury.io/js/btt-node)
 
 Easier way to manage your BetterTouchTool within nodejs environment.
 
