@@ -4,6 +4,12 @@
 
 * **init:**  test docs something i dont know (78c4b437)
 
+### 0.1.0 (2018-05-29)
+
+##### Documentation Changes
+
+* **init:**  test docs something i dont know (78c4b437)
+
 # Change Log
 
 
