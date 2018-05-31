@@ -55,25 +55,15 @@ class BTT {
    * @param {*} config 
    */
   Widget(config) {
-    const widget = new Widget(config, this);
-
-    return widget;
-  }
-
-  /**
-   * Exposes btt trigger constructor, passing current BTT instance as dependency
-   * @param {*} config 
-   */
-  Trigger(config) {
-    const trigger = new Trigger(config, this);
-
-    return trigger;
+    return new Widget(config, this);
   }
 
   /**
    * Returns various utility function for managing triggers
    */
   get Trigger() {
+    const btt = this;
+    
     return {
       /**
        * Creates a new trigger with given data
@@ -82,7 +72,23 @@ class BTT {
         this.do('add_new_trigger', {
           json: JSON.stringify(data),
         });
-      }
+      },
+
+      /**
+       * Gets existing trigger instance
+       */
+      get: (config) => {
+        return new Trigger(config, btt);
+      },
+
+      /**
+       * Triggers a trigger passed via JSON
+       */
+      invoke: (json) => {
+        return this.do('trigger_action', {
+          json: JSON.stringify(json),
+        });
+      },
     }
   }
 }

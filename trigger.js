@@ -10,7 +10,7 @@ class Trigger {
   constructor(config, btt) {
     this.uuid = config.uuid;
     this.name = config.name;
-    this.btt = config.btt;
+    this.btt = btt;
   }
 
   /**
