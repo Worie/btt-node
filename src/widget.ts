@@ -2,13 +2,23 @@
  * Represents a BTT TouchBar Widget.
  * Should not be created directly, only via btt.Widget
  */
-class Widget {
+
+import * as Types from './types';
+
+export default class Widget {
+
+  private uuid: string;
+  private default: Function;
+  
+  // @TODO: Fix typings
+  private btt: any;
+
   /**
    *
    * @param {*} config 
    * @param {*} btt 
    */
-  constructor(config, btt) {
+  constructor(config: Types.IWidgetConfig, btt: any) {
     this.uuid = config.uuid;
     this.default = config.default;
     this.btt = btt;
@@ -18,7 +28,7 @@ class Widget {
    * Updates the current widget with given data
    * @param {*} data 
    */
-  update(data) {
+  async update(data: any): Promise<void> {
     // if there was no data passed, nor there was no default fallback
     if (!data && !this.default) {
       // show a warning and stop the execution of the function
@@ -46,18 +56,16 @@ class Widget {
   /**
    * Refreshes current widget
    */
-  refresh() {
+  async refresh(): Promise<void> {
     return this.btt.do('refresh_widget', { uuid: this.uuid });
   }
 
   /**
    * Triggers the widget
    */
-  click() {
+  async click(): Promise<void> {
     return this.btt.do('execute_assigned_actions_for_trigger', {
       uuid: this.uuid,
     });
   }
 }
-
-module.exports = Widget;

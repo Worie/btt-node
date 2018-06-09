@@ -1,5 +1,3 @@
-function greeter(person:any) {
-    return "Hello, " + person;
-}
-let user = "Jane User";
-document.body.innerHTML = greeter(user);
+import BTT from './btt';
+
+export default BTT;

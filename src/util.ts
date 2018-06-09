@@ -1,10 +1,8 @@
-const fetch = require('node-fetch-polyfill');
-
 /**
  * Escapes given text to be valid query param value
  * @param {*} text 
  */
-function escapeSpaces(text) {
+export function escapeSpaces(text: string) {
   return text.replace(/ /g, '%20');
 }
 
@@ -12,16 +10,9 @@ function escapeSpaces(text) {
  * Escapes slashes and spaces for BTT endpoints
  * @param {*} text 
  */
-function escapeForBtt(text) {
+export function escapeForBtt(text: string) {
   const result = String(text);
   return result
     .replace(/ /g, '%20')
     .replace(/\//g, '\/');
-}
-
-
-module.exports = {
-  fetch,
-  escapeSpaces,
-  escapeForBtt
 }

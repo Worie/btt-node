@@ -1,13 +1,22 @@
 /**
  * Represents BTT Trigger. Shouldn't be called directly
  */
-class Trigger {
+
+import * as Types from './types';
+
+export default class Trigger {
+  private uuid: string;
+  private name: string;
+  
+  // @TODO: Fix typings
+  private btt: any;
+
   /**
    * 
    * @param {*} config 
    * @param {*} btt 
    */
-  constructor(config, btt) {
+  constructor(config: Types.ITriggerConfig, btt: any) {
     this.uuid = config.uuid;
     this.name = config.name;
     this.btt = btt;
@@ -35,7 +44,7 @@ class Trigger {
    * Updates the trigger data with given JSON
    * @param {*} data 
    */
-  update(data) {
+  update(data: any) {
     if (!data) {
       return console.warn('No update data passed to Trigger');
     }
@@ -47,5 +56,3 @@ class Trigger {
     });
   }
 }
-
-module.exports = Trigger;

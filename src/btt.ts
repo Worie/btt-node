@@ -1,16 +1,27 @@
-const Util = require('./util');
-const Widget = require('./widget');
-const Trigger = require('./trigger');
+import * as Util from './util';
+import * as Types from './types';
+import Trigger from './trigger';
+import Widget from './widget';
+import fetch from 'node-fetch-polyfill';
 
 /**
  * Class used to manage the BTT webserver 
  */
 class BTT {
+  // holds the domain name / ip address where BTT webserver is
+  private domain: string;
+
+  // holds the port type of the webserver
+  private port: number;
+
+  // holds whether the webserver is encrypted or not
+  private protocol: string;
+
   /**
    * Constructor for BetterTouchTool webserver related actions
    * @param {*} config 
    */
-  constructor(config) {
+  constructor(config: Types.IBTTConfig) {
     const { domain, port, protocol } = config;
     
     if (!domain || !port || !protocol) {
@@ -25,18 +36,18 @@ class BTT {
   /**
    * Returns a base url for the BTT webserver endpoint
    */
-  get url() {
+  get url(): string {
     return `${this.protocol}://${this.domain}:${this.port}/`;
   }
 
   /**
    * Makes an action of BTT server with given params
-   * @param {*} action 
+   * @param {*} action
    * @param {*} data 
    */
-  do(action, data) {
+  async do(action: string, data: Record<string, any>): Promise<void> {
     const url = `${this.url}${action}/?${this.params(data)}`;
-    return Util.fetch(url);
+    return fetch(url);
   }
 
   /**
@@ -44,7 +55,7 @@ class BTT {
    * to query parameters
    * @param {*} data 
    */
-  params(data) {
+  params(data: Record<string, string>): string {
     return Object.keys(data).map(param => {
       return `${param}=${Util.escapeForBtt(data[param])}`;
     }).join('&');
@@ -54,7 +65,7 @@ class BTT {
    * Exposes btt widget constructor, passing current BTT instance as dependency
    * @param {*} config 
    */
-  Widget(config) {
+  Widget(config: any) {
     return new Widget(config, this);
   }
 
@@ -68,7 +79,7 @@ class BTT {
       /**
        * Creates a new trigger with given data
        */
-      new: (data) => {
+      new: (data: any) => {
         this.do('add_new_trigger', {
           json: JSON.stringify(data),
         });
@@ -77,14 +88,14 @@ class BTT {
       /**
        * Gets existing trigger instance
        */
-      get: (config) => {
+      get: (config: any) => {
         return new Trigger(config, btt);
       },
 
       /**
        * Triggers a trigger passed via JSON
        */
-      invoke: (json) => {
+      invoke: (json: any) => {
         return this.do('trigger_action', {
           json: JSON.stringify(json),
         });
@@ -93,4 +104,4 @@ class BTT {
   }
 }
 
-module.exports = BTT;
+export default BTT;
