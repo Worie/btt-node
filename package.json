@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "version": "auto-changelog -p && git add CHANGELOG.md"
+    "version": "auto-changelog -p && git add CHANGELOG.md",
+    "dev": "webpack -d --watch",
+    "prod": "webpack -p"
   },
   "auto-changelog": {
     "output": "CHANGELOG.md",
@@ -21,6 +23,8 @@
   },
   "devDependencies": {
     "auto-changelog": "^1.7.0",
-    "generate-changelog": "^1.7.1"
+    "generate-changelog": "^1.7.1",
+    "ts-loader": "^4.4.1",
+    "typescript": "^2.9.1"
   }
 }
