@@ -5,15 +5,18 @@
 
 import * as Types from './types';
 
-let btt: any;
+let btt: Types.IBTT;
 
-class Widget {
+class Widget implements Types.IWidget{
 
+  // stores the uuid of the existing btt widget
   private uuid: string;
+
+  // stores the default update behaviour of the widget
   private default: Function;
   
   /**
-   *
+   * Creates an instance representing BTT Widget
    * @param {*} config 
    */
   constructor(config: Types.IWidgetConfig) {
@@ -73,7 +76,7 @@ class Widget {
  * that triggers / widgets are created on the right BTT webserver
  * @param bttInstance 
  */
-export default function init(bttInstance: any) {
+export default function init(bttInstance: Types.IBTT) {
   // silly way to inject BTT class, don't know the pattern yet
   btt = bttInstance;
   return Widget;

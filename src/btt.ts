@@ -7,7 +7,7 @@ import fetch from 'node-fetch-polyfill';
 /**
  * Class used to manage the BTT webserver 
  */
-class BTT {
+class BTT implements Types.IBTT {
   // holds the domain name / ip address where BTT webserver is
   private domain: string;
 
@@ -21,10 +21,10 @@ class BTT {
   private sharedKey: string;
 
   // holds Trigger class
-  private Trigger: any;
+  public readonly Trigger: any;
   
   // holds Widget class
-  private Widget: any;
+  public readonly Widget: any;
 
   /**
    * Constructor for BetterTouchTool webserver related actions

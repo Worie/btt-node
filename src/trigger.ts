@@ -5,14 +5,17 @@
 import * as Types from './types';
 
 // fix typings
-let btt: any;
+let btt: Types.IBTT;
 
-class Trigger {
+class Trigger implements Types.ITrigger {
+  // holds the uuid of the newly created / initialized trigger
   private uuid: string;
+  
+  // holds the name of the newly created / initialized trigger
   private name: string;
   
   /**
-   * 
+   * Constructs the Trigger instance, sets the uuid and name for further calls
    * @param {*} config 
    */
   private constructor(config: Types.ITriggerConfig) {
@@ -24,7 +27,7 @@ class Trigger {
    * Calls the given trigger. Based on the data it was constructed with
    * the method of invoke varies
    */
-  invoke() {
+  invoke(): Promise<void> {
     // if this is a named trigger
     if (this.name) {
       // perform a named trigger execution
@@ -42,9 +45,10 @@ class Trigger {
    * Updates the trigger data with given JSON
    * @param {*} data 
    */
-  update(data: any) {
+  update(data: any): Promise<void> {
     if (!data) {
-      return console.warn('No update data passed to Trigger');
+      console.warn('No update data passed to Trigger');
+      return;
     }
 
     // update the trigger with given json
@@ -105,7 +109,7 @@ class Trigger {
  * that triggers / widgets are created on the right BTT webserver
  * @param bttInstance 
  */
-export default function init(bttInstance: any) {
+export default function init(bttInstance: Types.IBTT) {
   // silly way to inject BTT class, don't know the pattern yet
   btt = bttInstance;
   return Trigger;
