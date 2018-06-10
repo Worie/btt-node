@@ -88,6 +88,16 @@ class Trigger {
 
     return this.get(config);
   }
+  
+  /**
+   * Removes the given trigger 
+   * @param data 
+   */
+  static async delete(uuid: string): Promise<void> {
+    return btt.do('delete_trigger', {
+      uuid,
+    });
+  }
 }
 
 /**

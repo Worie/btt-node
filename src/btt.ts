@@ -17,6 +17,9 @@ class BTT {
   // holds whether the webserver is encrypted or not
   private protocol: string;
 
+  // shared key, needed if you set up webserver to allow only specific calls
+  private sharedKey: string;
+
   // holds Trigger class
   private Trigger: any;
   
@@ -28,7 +31,7 @@ class BTT {
    * @param {*} config 
    */
   constructor(config: Types.IBTTConfig) {
-    const { domain, port, protocol } = config;
+    const { domain, port, protocol, sharedKey } = config;
     
     if (!domain || !port || !protocol) {
       throw new Error('Missing config');
@@ -37,6 +40,7 @@ class BTT {
     this.domain = domain;
     this.port = port;
     this.protocol = protocol;
+    this.sharedKey = sharedKey;
 
     // that looks creepy
     // get class with scoped dependency of current BTT instance
@@ -68,9 +72,16 @@ class BTT {
    * @param {*} data 
    */
   private params(data: Record<string, string>): string {
-    return Object.keys(data).map(param => {
+    const params = Object.keys(data).map(param => {
       return `${param}=${Util.escapeForBtt(data[param])}`;
     }).join('&');
+
+    // if sharedKey was passed, add shared_key get parameter to enable the calls
+    if (this.sharedKey) {
+      return `${params}&shared_key=${this.sharedKey}`;
+    }
+
+    return params;
   }
 }
 

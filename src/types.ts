@@ -2,6 +2,8 @@ export interface IBTTConfig {
   domain: string;
   port: number;
   protocol: string;
+  sharedKey: string;
+  // add credentials
 }
 
 export interface ITriggerConfig {
