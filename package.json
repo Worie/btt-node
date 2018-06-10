@@ -3,6 +3,7 @@
   "version": "0.0.5",
   "description": "A tool for managing BTT webserver easier, in nodejs",
   "main": "./dist/index.js",
+  "types": "./btt-node/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "version": "auto-changelog -p && git add CHANGELOG.md",

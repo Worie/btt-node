@@ -7,7 +7,7 @@ import * as Types from './types';
 // fix typings
 let btt: Types.IBTT;
 
-class Trigger implements Types.ITrigger {
+class Trigger {
   // holds the uuid of the newly created / initialized trigger
   private uuid: string;
   
@@ -70,6 +70,7 @@ class Trigger implements Types.ITrigger {
 
   /**
    * Gets existing trigger instance
+   * @param config
    */
   static get(config: Types.ITriggerConfig) {
     return new this(config);
@@ -95,7 +96,7 @@ class Trigger implements Types.ITrigger {
   
   /**
    * Removes the given trigger 
-   * @param data 
+   * @param uuid 
    */
   static async delete(uuid: string): Promise<void> {
     return btt.do('delete_trigger', {
@@ -110,7 +111,7 @@ class Trigger implements Types.ITrigger {
  * @param bttInstance 
  */
 export default function init(bttInstance: Types.IBTT) {
-  // silly way to inject BTT class, don't know the pattern yet
+  // silly way to inject BTT class
   btt = bttInstance;
   return Trigger;
 }

@@ -42,7 +42,7 @@ class BTT implements Types.IBTT {
     this.protocol = protocol;
     this.sharedKey = sharedKey;
 
-    // that looks creepy
+    // that looks creepy and probably I'm doing something wrong here
     // get class with scoped dependency of current BTT instance
     this.Trigger = Trigger(this);
 

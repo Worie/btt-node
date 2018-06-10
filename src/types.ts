@@ -6,8 +6,8 @@ export interface IBTTConfig {
 }
 
 export interface ITriggerConfig {
-  uuid: string;
-  name: string;
+  uuid?: string;
+  name?: string;
 }
 
 export interface IWidgetConfig {
@@ -17,13 +17,31 @@ export interface IWidgetConfig {
 
 export interface ITrigger {
   invoke(): Promise<void>;
-  update(data: any): Promise<void>;
+  update(data: any): Promise<void>; 
+  
+  get(config: ITriggerConfig): ITrigger;
+  invoke(data: any): Promise<void>;
+  delete(uuid: string): Promise<void>;
+}
+
+export declare var ITrigger: {
+  constructor(config: ITriggerConfig): ITrigger
 }
 
 export interface IWidget {
   click(): Promise<void>
   refresh(): Promise<void>
   update(data: any): Promise<void>
+
+  get(config: IWidgetConfig): IWidget;
+}
+
+export declare var IWidget: {
+  constructor(config: IWidgetConfig): IWidget
+}
+
+export interface IWidgetConstructor {
+  constructor(config: IWidgetConfig): IWidget;
 }
 
 export interface IBTT {
@@ -34,4 +52,8 @@ export interface IBTT {
   readonly Widget: IWidget;
   
   do(action: string, data: Record<string, any>): Promise<void>;
+}
+
+export declare var IBTT: {
+  new (config: IBTTConfig): IBTT;
 }

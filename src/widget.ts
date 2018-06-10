@@ -7,7 +7,7 @@ import * as Types from './types';
 
 let btt: Types.IBTT;
 
-class Widget implements Types.IWidget{
+class Widget {
 
   // stores the uuid of the existing btt widget
   private uuid: string;
@@ -19,7 +19,7 @@ class Widget implements Types.IWidget{
    * Creates an instance representing BTT Widget
    * @param {*} config 
    */
-  constructor(config: Types.IWidgetConfig) {
+  private constructor(config: Types.IWidgetConfig) {
     this.uuid = config.uuid;
     this.default = config.default;
   }
@@ -68,8 +68,15 @@ class Widget implements Types.IWidget{
       uuid: this.uuid,
     });
   }
-}
 
+  /**
+   * Gets existing trigger instance
+   * @param config
+   */
+  static get(config: Types.IWidgetConfig) {
+    return new this(config);
+  }
+}
 
 /**
  * Exports a function to which BTT instance should be passed to make sure
@@ -77,7 +84,7 @@ class Widget implements Types.IWidget{
  * @param bttInstance 
  */
 export default function init(bttInstance: Types.IBTT) {
-  // silly way to inject BTT class, don't know the pattern yet
+  // silly way to inject BTT class
   btt = bttInstance;
   return Widget;
 }
