@@ -4,22 +4,20 @@
 
 import * as Types from './types';
 
-export default class Trigger {
+// fix typings
+let btt: any;
+
+class Trigger {
   private uuid: string;
   private name: string;
   
-  // @TODO: Fix typings
-  private btt: any;
-
   /**
    * 
    * @param {*} config 
-   * @param {*} btt 
    */
-  constructor(config: Types.ITriggerConfig, btt: any) {
+  private constructor(config: Types.ITriggerConfig) {
     this.uuid = config.uuid;
     this.name = config.name;
-    this.btt = btt;
   }
 
   /**
@@ -30,11 +28,11 @@ export default class Trigger {
     // if this is a named trigger
     if (this.name) {
       // perform a named trigger execution
-      return this.btt.do('trigger_named', { trigger_name: this.name });
+      return btt.do('trigger_named', { trigger_name: this.name });
     // if this was a generic trigger
     } else if (this.uuid) {
       // executre the actions for this trigger
-      return this.btt.do('execute_assigned_actions_for_trigger', {
+      return btt.do('execute_assigned_actions_for_trigger', {
         uuid: this.uuid,
       });
     }
@@ -50,9 +48,55 @@ export default class Trigger {
     }
 
     // update the trigger with given json
-    return this.btt.do('update_trigger', {
+    return btt.do('update_trigger', {
       uuid: this.uuid,
       json: JSON.stringify(data),
     });
   }
+
+  /**
+   * Triggers given json
+   * @param json 
+   */
+  static invoke(json: any) {
+    return btt.do('trigger_action', {
+      json: JSON.stringify(json),
+    });
+  }
+
+  /**
+   * Gets existing trigger instance
+   */
+  static get(config: Types.ITriggerConfig) {
+    return new this(config);
+  }
+
+  /**
+   * Creates a new trigger and returns it instance 
+   * @param config 
+   */
+  static async create(data: any): Promise<Trigger> {
+    // create it here basing on config
+    await btt.do('add_new_trigger', {
+      json: JSON.stringify(data),
+    });
+
+    const config: Types.ITriggerConfig = {
+      ...data.uuid,
+      ...data.name,
+    };
+
+    return this.get(config);
+  }
+}
+
+/**
+ * Exports a function to which BTT instance should be passed to make sure
+ * that triggers / widgets are created on the right BTT webserver
+ * @param bttInstance 
+ */
+export default function init(bttInstance: any) {
+  // silly way to inject BTT class, don't know the pattern yet
+  btt = bttInstance;
+  return Trigger;
 }

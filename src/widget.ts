@@ -5,23 +5,20 @@
 
 import * as Types from './types';
 
-export default class Widget {
+let btt: any;
+
+class Widget {
 
   private uuid: string;
   private default: Function;
   
-  // @TODO: Fix typings
-  private btt: any;
-
   /**
    *
    * @param {*} config 
-   * @param {*} btt 
    */
-  constructor(config: Types.IWidgetConfig, btt: any) {
+  constructor(config: Types.IWidgetConfig) {
     this.uuid = config.uuid;
     this.default = config.default;
-    this.btt = btt;
   }
 
   /**
@@ -50,22 +47,34 @@ export default class Widget {
     };
 
     // update current widget
-    return this.btt.do('update_touch_bar_widget', updateData);
+    return btt.do('update_touch_bar_widget', updateData);
   }
 
   /**
    * Refreshes current widget
    */
   async refresh(): Promise<void> {
-    return this.btt.do('refresh_widget', { uuid: this.uuid });
+    return btt.do('refresh_widget', { uuid: this.uuid });
   }
 
   /**
    * Triggers the widget
    */
   async click(): Promise<void> {
-    return this.btt.do('execute_assigned_actions_for_trigger', {
+    return btt.do('execute_assigned_actions_for_trigger', {
       uuid: this.uuid,
     });
   }
+}
+
+
+/**
+ * Exports a function to which BTT instance should be passed to make sure
+ * that triggers / widgets are created on the right BTT webserver
+ * @param bttInstance 
+ */
+export default function init(bttInstance: any) {
+  // silly way to inject BTT class, don't know the pattern yet
+  btt = bttInstance;
+  return Widget;
 }
