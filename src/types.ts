@@ -57,3 +57,8 @@ export interface IBTT {
 export declare var IBTT: {
   new (config: IBTTConfig): IBTT;
 }
+
+export enum ACTION {
+  SEND_SHORTCUT_TO_APP = 128,
+  SEND_SHORTCUT = -1,
+};

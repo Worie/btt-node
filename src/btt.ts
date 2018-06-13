@@ -3,6 +3,7 @@ import * as Types from './types';
 import Trigger from './trigger';
 import Widget from './widget';
 import fetch from 'node-fetch-polyfill';
+import Actions from './actions';
 
 /**
  * Class used to manage the BTT webserver 
@@ -47,12 +48,16 @@ class BTT implements Types.IBTT {
     this.Trigger = Trigger(this);
 
     this.Widget = Widget(this);
+
+    Actions.forEach((method: Function) => {
+      (BTT as any).prototype[method.name] = method.bind(this);
+    });
   }
 
   /**
    * Returns a base url for the BTT webserver endpoint
    */
-  get url(): string {
+  private get url(): string {
     return `${this.protocol}://${this.domain}:${this.port}/`;
   }
 
@@ -61,9 +66,13 @@ class BTT implements Types.IBTT {
    * @param {*} action
    * @param {*} data 
    */
-  async do(action: string, data: Record<string, any>): Promise<void> {
-    const url = `${this.url}${action}/?${this.params(data)}`;
-    return fetch(url);
+  public async do(action: string, data: Record<string, any>): Promise<void> {
+    try {
+      const url = `${this.url}${action}/?${this.params(data)}`;
+      return fetch(url);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   /**
@@ -72,6 +81,7 @@ class BTT implements Types.IBTT {
    * @param {*} data 
    */
   private params(data: Record<string, string>): string {
+    // parses keys of the object into query params
     const params = Object.keys(data).map(param => {
       return `${param}=${Util.escapeForBtt(data[param])}`;
     }).join('&');
