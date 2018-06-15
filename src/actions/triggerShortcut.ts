@@ -1,5 +1,5 @@
 import { mapShortcutNotationToBTT } from '../util/keys';
-import { ACTION } from '../types';
+import { ACTION } from 'types';
 
 /**
  * Gets valid JSON for given action
