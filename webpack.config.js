@@ -14,6 +14,10 @@ module.exports = {
   },
   externals: [nodeExternals()],
   resolve: {
+    modules: [
+        path.resolve(__dirname, 'node_modules'),
+        path.resolve(__dirname, 'src'),
+    ],
     extensions: [ '.tsx', '.ts', '.js' ]
   },
   output: {
