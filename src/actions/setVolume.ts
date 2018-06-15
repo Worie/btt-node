@@ -1,7 +1,12 @@
+/**
+ * This module is horrible
+ */
 import { ACTION } from '../types';
+
 
 /**
  * Updates the system volume to given amount. Could be done outside of BTT and be simpler and more efficient.
+ * Probably a will do, but I'll keep the current implementation anyway for now.
  * @param volumeString 
  */
 function updateVolume(volumeString: string) {
@@ -18,9 +23,11 @@ function updateVolume(volumeString: string) {
   for (let i = 0; i <= ITERATION_COUNT; i++) {
     promises.push(
       this.do('trigger_action', {
-        "BTTPredefinedActionType" : ACTION.VOLUME_UP_SLIGHTLY,
-        "BTTEnabled2" : 1,
-        "BTTEnabled" : 1,
+        json: JSON.stringify({
+          "BTTPredefinedActionType" : ACTION.VOLUME_UP_SLIGHTLY,
+          "BTTEnabled2" : 1,
+          "BTTEnabled" : 1,
+        })
       }),
     );
   }
@@ -37,10 +44,12 @@ function resetVolume(): Promise<any> {
   for (let i = 0; i < 16; i++) {
     promises.push(
       this.do('trigger_action', {
-        "BTTPredefinedActionType" : ACTION.VOLUME_DOWN,
-        "BTTEnabled2" : 1,
-        "BTTEnabled" : 1,
-      }),
+        json: JSON.stringify({
+          "BTTPredefinedActionType" : ACTION.VOLUME_DOWN,
+          "BTTEnabled2" : 1,
+          "BTTEnabled" : 1,
+        })
+      })
     );
   }
 
@@ -54,13 +63,8 @@ function resetVolume(): Promise<any> {
  */
 export default async function setVolume(volumeString: string) {
   // reset the volume to 0
-  await (resetVolume.bind(this))();
-  
-  this.do('trigger_action', {
-    "BTTPredefinedActionType" : ACTION.TOGGLE_NIGHT_SHIFT,
-    "BTTEnabled2" : 1,
-    "BTTEnabled" : 1,
-  })
+  await resetVolume.apply(this);
+
   // update the volume
-  return (updateVolume.bind(this))(volumeString);
+  return updateVolume.apply(this, [volumeString]);
 }
