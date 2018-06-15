@@ -4,10 +4,7 @@ import { ACTION } from '../types';
  * Gets valid JSON for given action
  * @param shortcut 
  */
-function getJSON(
-  shortcut: string, 
-  applicationPath: string,
-): any {
+function getJSON(): any {
   
   return JSON.stringify({
     "BTTPredefinedActionType" : ACTION.TOGGLE_NIGHT_SHIFT,
@@ -21,11 +18,8 @@ function getJSON(
  * @param shortcut 
  * @param applicationPath 
  */
-export default function toggleNightShift(
-  shortcut: string,
-  applicationPath: string,
-) {
+export default function toggleNightShift() {
   this.do('trigger_action', {
-    json: getJSON(shortcut, applicationPath),
+    json: getJSON(),
   });
 }

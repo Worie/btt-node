@@ -1,5 +1,6 @@
 import { mapShortcutNotationToBTT } from '../util/keys';
 import { ACTION } from '../types';
+import { execSync } from 'child_process';
 
 /**
  * Gets valid JSON for given action
@@ -12,14 +13,18 @@ function getJSON(
   
   const shortcutToSend: string = mapShortcutNotationToBTT(shortcut);
 
-  return JSON.stringify({
+  const mdlsName: string = execSync(`mdls -name kMDItemCFBundleIdentifier -r ${applicationPath}`).toString();
+
+  const result = JSON.stringify({
     "BTTPredefinedActionType" : ACTION.SEND_SHORTCUT_TO_APP,
     "BTTShortcutApp" : applicationPath,
     "BTTShortcutToSend" : shortcutToSend,
-    // missing one field
+    "BTTShortcutAppUnderCursor": mdlsName.replace('/', '\\/'),
     "BTTEnabled2" : 1,
     "BTTEnabled" : 1,
   });
+
+  return result;
 }
 
 /**

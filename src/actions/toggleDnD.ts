@@ -4,11 +4,7 @@ import { ACTION } from '../types';
  * Gets valid JSON for given action
  * @param shortcut 
  */
-function getJSON(
-  shortcut: string, 
-  applicationPath: string,
-): any {
-  
+function getJSON(): any {
   return JSON.stringify({
     "BTTPredefinedActionType" : ACTION.TOGGLE_DND,
     "BTTEnabled2" : 1,
@@ -26,6 +22,6 @@ export default function toggleDnD(
   applicationPath: string,
 ) {
   this.do('trigger_action', {
-    json: getJSON(shortcut, applicationPath),
+    json: getJSON(),
   });
 }
