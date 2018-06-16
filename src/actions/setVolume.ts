@@ -1,5 +1,5 @@
 /**
- * This module is horrible
+ * This module is horrible, just get rid of it
  */
 import { ACTION } from '../types';
 

@@ -1,5 +1,7 @@
 ## btt-node [![npm version](https://badge.fury.io/js/btt-node.svg)](https://badge.fury.io/js/btt-node)
 
+### THIS IS ALPHA VERSION OF THE PACKAGE, STILL IN DEVELOPMENT
+
 Easier way to manage your BetterTouchTool within nodejs environment.
 
 It's based on BetterTouchTool built in webserver API.

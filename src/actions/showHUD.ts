@@ -1,19 +1,32 @@
 import { ACTION } from '../types';
 
+interface IShowHUDConfig {
+  title: string;
+  details: string;
+  duration: number;
+  background: string;
+  direction: number;
+}
+
 /**
  * Gets valid JSON for given action
- * @param shortcut 
  */
-function getJSON(title: string, details: string): any {
+function getJSON(config: IShowHUDConfig): any {
+  const { title, details, duration, background, direction } = config;
+
+  const BTTAdditionalConfig: any = {
+    "BTTActionHUDDetail": details,
+    "BTTActionHUDTitle": title,
+    "BTTActionHUDDuration": duration,
+    "BTTActionHUDBackground": background, //"114.773936, 250.237260, 120.947282, 50.145815",
+    "BTTActionHUDSlideDirection": direction // 0
+  };
+  
   const result: string = JSON.stringify({
-    "BTTPredefinedActionType" : ACTION.NO_ACTION,
+    "BTTPredefinedActionType" : ACTION.SHOW_HUD,
+    "BTTHUDActionConfiguration" : JSON.stringify(BTTAdditionalConfig),
     "BTTEnabled2" : 1,
     "BTTEnabled" : 1,
-    "BTTTriggerConfig" : {
-      "BTTHUDText" : title,
-      "BTTHUDDetailText" : details,
-      "BTTShowHUD" : 1
-    }
   });
 
   return result;
@@ -21,11 +34,9 @@ function getJSON(title: string, details: string): any {
 
 /**
  * Sends a shortcut to specified Application
- * @param shortcut 
- * @param applicationPath 
  */
-export default function showHUD(title: string, details: string) {
-  this.do('trigger_action', {
-    json: getJSON(title, details),
+export default function showHUD(config: IShowHUDConfig) {
+  return this.do('trigger_action', {
+    json: getJSON(config),
   });
 }

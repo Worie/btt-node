@@ -24,7 +24,7 @@ function getJSON(
  * @param shortcut 
  */
 export default function triggerShortcut(shortcut: string) {
-  this.do('trigger_action', {
+  return this.do('trigger_action', {
     json: getJSON(shortcut)
   });
 } 

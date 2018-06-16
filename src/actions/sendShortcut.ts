@@ -36,7 +36,7 @@ export default function sendShortcut(
   shortcut: string,
   applicationPath: string,
 ) {
-  this.do('trigger_action', {
+  return this.do('trigger_action', {
     json: getJSON(shortcut, applicationPath),
   });
 }

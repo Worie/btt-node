@@ -18,7 +18,7 @@ function getJSON(): any {
  * @param applicationPath 
  */
 export default function toggleDnD() {
-  this.do('trigger_action', {
+  return this.do('trigger_action', {
     json: getJSON(),
   });
 }

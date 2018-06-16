@@ -19,7 +19,7 @@ function getJSON(): any {
  * @param applicationPath 
  */
 export default function toggleNightShift() {
-  this.do('trigger_action', {
+  return this.do('trigger_action', {
     json: getJSON(),
   });
 }
