@@ -235,20 +235,13 @@ export function mapShortcutNotationToBTT(shortcut: string): string {
     return matchedKey.code;
   });
 
-  // join the array with comma to get valid BTT format
-  const BTTShortcutNotation = BTTKeys.join(',');
+  // construct the valid structure for BTT shortcuts
+  const BTTShortcutNotation = BTTKeys
+    // ensure the descending order of buttons to keep BTT working
+    .sort()
+    .reverse()
+    // join the array with comma to get valid BTT format
+    .join(',');
 
   return BTTShortcutNotation;
 }
-
-
-
-// export const actions = [
-//   {
-//     type: ACTION.SEND_SHORTCUT_TO_APP,
-//     data: {
-//       ShortcutApp: "\/Applications\/BetterTouchTool.app",
-//     },
-//   },
-// ];
-

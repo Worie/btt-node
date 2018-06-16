@@ -17,10 +17,7 @@ function getJSON(): any {
  * @param shortcut 
  * @param applicationPath 
  */
-export default function toggleDnD(
-  shortcut: string,
-  applicationPath: string,
-) {
+export default function toggleDnD() {
   this.do('trigger_action', {
     json: getJSON(),
   });

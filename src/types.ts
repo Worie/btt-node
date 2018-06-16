@@ -61,6 +61,7 @@ export declare var IBTT: {
 export enum ACTION {
   SEND_SHORTCUT_TO_APP = 128,
   SEND_SHORTCUT = -1,
+  NO_ACTION = -1,
   TOGGLE_DND = 200,
   TOGGLE_NIGHT_SHIFT = 201,
   VOLUME_UP = 24,
