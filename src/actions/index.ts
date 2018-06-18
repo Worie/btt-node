@@ -5,7 +5,7 @@ import toggleNightShift from './toggleNightShift';
 import setVolume from './setVolume';
 import showHUD from './showHUD';
 
-const actions = [
+const actionsList = [
   triggerShortcut,
   sendShortcut,
   toggleDnD,
@@ -14,4 +14,12 @@ const actions = [
   showHUD,
 ];
 
-export default actions;
+export default function init() {
+  const actions: Record<string, Function> = {};
+
+  actionsList.forEach((action: Function) => {
+    actions[action.name] = action.bind(this);
+  });
+
+  return actions;
+};

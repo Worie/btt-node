@@ -1,15 +1,14 @@
 import * as Util from './util';
 import * as Types from './types';
-import Trigger from './trigger';
-import Widget from './widget';
+import TriggerInit, { Trigger, TriggerStatic } from './trigger';
+import WidgetInit, { Widget, WidgetStatic } from './widget';
 import fetch from 'node-fetch-polyfill';
 import Actions from './actions';
-import Queue from './queue';
 
 /**
  * Class used to manage the BTT webserver 
  */
-class BTT implements Types.IBTT {
+class BTT {
   // holds the domain name / ip address where BTT webserver is
   private domain: string;
 
@@ -25,13 +24,15 @@ class BTT implements Types.IBTT {
   // version of BTT
   private version: string;
 
-  // holds Trigger class
-  public readonly Trigger: any;
-  
-  // holds Widget class
-  public readonly Widget: any;
+  // holds various actions definitions
+  private actions: any;
 
-  public readonly queue: any;
+  // stores a Trigger factory
+  public Trigger: TriggerStatic<Types.ITriggerConfig>;
+  
+  // stores a Widget factory
+  public Widget: WidgetStatic<Types.IWidgetConfig>;
+
 
   /**
    * Constructor for BetterTouchTool webserver related actions
@@ -41,7 +42,7 @@ class BTT implements Types.IBTT {
     const { domain, port, protocol, sharedKey, version } = config;
     
     if (!domain || !port || !protocol) {
-      throw new Error('Missing config');
+      throw new Error('Missing required config');
     }
 
     this.domain = domain;
@@ -49,17 +50,15 @@ class BTT implements Types.IBTT {
     this.protocol = protocol;
     this.sharedKey = sharedKey;
     this.version = version;
-
-    // this could be done via extending of BTT class perhaps
-    this.Trigger = Trigger(this);
-
-    this.Widget = Widget(this);
     
-    this.queue = Queue(this);
+    // get all the actions
+    this.actions = Actions.bind(this)();
 
-    Actions.forEach((method: Function) => {
-      (BTT as any).prototype[method.name] = method.bind(this);
-    });
+    // initialize the Trigger factory
+    this.Trigger = TriggerInit(this);
+    
+    // initialize the Widget factory
+    this.Widget = WidgetInit(this);
   }
 
   /**
@@ -74,10 +73,9 @@ class BTT implements Types.IBTT {
    * @param {*} action
    * @param {*} data 
    */
-  public async do(action: string, data: Record<string, any>): Promise<void> {
+  public do(action: string, data: Record<string, any>): Promise<void> {
     try {
       const url = `${this.url}${action}/?${this.params(data)}`;
-      // console.log(url);
       return fetch(url);
     } catch (error) {
       console.error(error);
@@ -85,17 +83,18 @@ class BTT implements Types.IBTT {
   }
 
   /**
-   * Returns ...
+   * Returns current config of the instance
+   * may be handy with factory functions?
    */
-  // perhaps the usage would be: 
-
-  // const queue = new btt.queue();
-
-  // queue
-  // .sendShortcut('p+alt+shift', '/Applications/Firefox.app')
-  // .showHUD('Agrest', 'to dobre ziomki');
-
-  // then the calls would get sequential -> showHUD would be exec. after sendShortcut
+  public get config(): Types.IBTTConfig {
+    return {
+      domain: this.domain,
+      version: this.version,
+      sharedKey: this.sharedKey,
+      port: this.port,
+      protocol: this.protocol,
+    };
+  }
 
   /**
    * Parses given list of params (key-value object) and converts it 
@@ -114,6 +113,55 @@ class BTT implements Types.IBTT {
     }
 
     return params;
+  }
+
+  /** ACTIONS */
+
+  /**
+   * Sends shortcut to the application
+   * @param shortcut 
+   * @param applicationPath 
+   */
+  public sendShortcut(shortcut: string, applicationPath: string) {
+    return this.actions.sendShortcut(shortcut, applicationPath);
+  }
+
+  /**
+   * Sets the volume of the system
+   * @param volume 
+   */
+  public setVolume(volume: string) {
+    return this.actions.setVolume(volume);
+  }
+
+  /**
+   * Toggles do not disturb mode
+   */
+  public toggleDnD() {
+    return this.actions.toggleDnD();
+  }
+
+  /**
+   * Toggles night shift
+   */
+  public toggleNightShift() {
+    return this.actions.toggleNightShift();
+  }
+
+  /**
+   * Triggers system wide keyboard shortcut
+   * @param shortcut 
+   */
+  public triggerShortcut(shortcut: string) {
+    return this.actions.triggerShortcut(shortcut);
+  }
+
+  /**
+   * Shows HUD with given config
+   * @param config 
+   */
+  public showHUD(config: Types.IShowHUDConfig) {
+    return this.actions.showHUD(config);
   }
 }
 
