@@ -4,15 +4,12 @@ import * as Types from '../types';
  * Gets valid JSON for given action
  * @param config 
  */
-function getJSON(config: Types.ISendTextConfig): any {
-  const { text, moveCursorLeft } = config;
-
+function getJSON(hapticMode: number): any {
   return JSON.stringify({
-    "BTTPredefinedActionType" : Types.ACTION.INSERT_TYPE_PASTE_TEXT,
+    "BTTPredefinedActionType" : Types.ACTION.TRIGGER_HAPTIC_ENGINE,
+    "BTTHapticFeedbackAction" : hapticMode,
     "BTTEnabled2" : 1,
     "BTTEnabled" : 1,
-    "BTTMoveCursorLeftBy" : `${moveCursorLeft}`,
-    "BTTStringToType" : `${text}`,
   });
 }
 
@@ -20,8 +17,8 @@ function getJSON(config: Types.ISendTextConfig): any {
  * Sends / Types / Inserts / Pastes custom text
  * @param config 
  */
-export default function hapticFeedback(config: Types.ISendTextConfig) {
+export default function hapticFeedback(hapticMode: number) {
   return this.do('trigger_action', {
-    json: getJSON(config),
+    json: getJSON(hapticMode),
   });
 }
