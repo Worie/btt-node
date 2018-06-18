@@ -1,7 +1,7 @@
 import * as Util from './util';
 import * as Types from './types';
-import TriggerInit, { Trigger, TriggerStatic } from './trigger';
-import WidgetInit, { Widget, WidgetStatic } from './widget';
+import TriggerInit, { TriggerStatic } from './trigger';
+import WidgetInit, { WidgetStatic } from './widget';
 import fetch from 'node-fetch-polyfill';
 import Actions from './actions';
 
@@ -162,6 +162,100 @@ class BTT {
    */
   public showHUD(config: Types.IShowHUDConfig) {
     return this.actions.showHUD(config);
+  }
+
+  /**
+   * Sends / Types / Inserts / Pastes custom text
+   * @param config 
+   */
+  public sendText(config: Types.ISendTextConfig) {
+    return this.actions.sendText(config);
+  }
+
+  /**
+   * Triggers a haptic response. Takes a number as a param due to BTT lack of information
+   * which ID represents which mode, in order to know what value represents what open BTT and map 
+   * the order of selects options in config of "Perform Haptic Feedback on Trackpad" action 
+   * @param hapticMode - a number representing each mode.
+   */
+  public hapticFeedback(hapticMode: number) {
+    return this.actions.hapticFeedback(hapticMode);
+  }
+
+  /**
+   * Open an application on the given path
+   * @param applicationPath 
+   */
+  public launchApplication(applicationPath: string) {
+    return this.actions.launchApplication(applicationPath);
+  }
+
+  /**
+   * Toggles the visibility of given application
+   * @param applicationPath 
+   */
+  public toggleApplication(applicationPath: string) {
+    return this.actions.toggleApplication(applicationPath);
+  }
+
+  /**
+   * Toggles the mute state in the system
+   */
+  public mute() {
+    return this.actions.mute();
+  }
+
+  /**
+   * Starts Siri
+   */
+  public startSiri() {
+    return this.actions.startSiri();
+  }
+
+  /**
+   * Toggles the BetterTouchTool gesture recognition
+   */
+  public toggle() {
+    return this.actions.toggle();
+  }
+
+  /**
+   * Delays the next action. For most cases manually managing the execution of actions in JavaScript
+   * should be sufficient - this will block any new action that BTT will recieve by the given am
+   * 
+   * @param timeout - time in seconds during any action execution will be delayed
+   */
+  public delayNextAction(timeout: number) {
+    return this.actions.delayNextAction(timeout);
+  }
+
+  /**
+   * Moves mouse to specified position
+   * @param config 
+   */
+  public moveMouse(config: Types.IMoveMouseConfig) {
+    return this.actions.moveMouse(config);
+  }
+
+  /**
+   * Toggles the mouse speed between a regular and speeded up one
+   */
+  public toggleMouseSpeed() {
+    return this.actions.toggleMouseSpeed();
+  }
+
+  /**
+   * Toggles mouse cursor visibility
+   */
+  public toggleMouseCursor() {
+    return this.actions.toggleMouseCursor();
+  }
+
+  /**
+   * Toggles between the big and regular mouse cursor size
+   */
+  public toggleMouseSize() {
+    return this.actions.toggleMouseSize();
   }
 }
 

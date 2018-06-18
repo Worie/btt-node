@@ -4,9 +4,12 @@
       "sourceMap": true,
       "noImplicitAny": true,
       "module": "commonjs",
-      "target": "ES2015",
+      "target": "ES2017",
       "allowJs": true,
       "experimentalDecorators": true,
-    }
+      "emitDecoratorMetadata": true,
+    },
+    "indentSize": 2,
+    "tabSize": 2
   }
   

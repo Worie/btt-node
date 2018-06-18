@@ -1,6 +1,6 @@
 {
   "name": "btt-node",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A tool for managing BTT webserver easier, in nodejs",
   "main": "./dist/index.js",
   "types": "./btt-node/index.d.ts",

@@ -1,6 +1,5 @@
 import * as Types from '../types';
 
-
 /**
  * Gets valid JSON for given action
  */

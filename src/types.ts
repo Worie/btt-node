@@ -38,6 +38,17 @@ export enum ACTION {
   VOLUME_DOWN = 25,
   VOLUME_DOWN_SLIGHTLY = 199,
   TRIGGER_HAPTIC_ENGINE = 255,
+  INSERT_TYPE_PASTE_TEXT = 118,
+  LAUNCH_APPLICATION = 49,
+  TOGGLE_APPLICATION = 177,
+  MUTE = 22,
+  START_SIRI = 173,
+  TOGGLE_BTT = 101,
+  DELAY_NEXT_ACTION = 129,
+  MOVE_MOUSE = 153,
+  TOGGLE_MOUSE_SPEED = 126,
+  TOGGLE_MOUSE_CURSOR = 140,
+  TOGGLE_MOUSE_SIZE = 123,
 };
 
 
@@ -56,4 +67,15 @@ export interface IShowHUDConfig {
   duration: number;
   background: string;
   direction: number;
+}
+
+export interface ISendTextConfig {
+  text: string;
+  moveCursorLeft: number;
+}
+
+export interface IMoveMouseConfig {
+  x: number;
+  y: number;
+  relativeTo: number;
 }
