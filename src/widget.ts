@@ -1,13 +1,27 @@
 /**
  * Represents a BTT TouchBar Widget.
- * Should not be created directly, only via btt.Widget
+ * For "typings structure" refer to the https://github.com/Microsoft/TypeScript/issues/13462#issuecomment-295685298
  */
 
 import * as Types from './types';
+import BTT from './btt';
 
-let btt: Types.IBTT;
+// scoped instance of BTT
+let btt: BTT;
 
-class Widget {
+/* static interface declaration */
+export interface WidgetStatic<T> extends Types.Type<Widget<T>> {
+}
+
+/* interface declaration */
+export interface Widget<T> {
+  refresh(): Promise<void>
+  invoke(): Promise<void>;
+  update(data: any): Promise<void>;
+}
+
+@Types.staticImplements<WidgetStatic<Widget<T>>>()
+export class Widget<T> {
 
   // stores the uuid of the existing btt widget
   private uuid: string;
@@ -19,7 +33,7 @@ class Widget {
    * Creates an instance representing BTT Widget
    * @param {*} config 
    */
-  private constructor(config: Types.IWidgetConfig) {
+  public constructor(config: Types.IWidgetConfig) {
     this.uuid = config.uuid;
     this.default = config.default;
   }
@@ -56,25 +70,17 @@ class Widget {
   /**
    * Refreshes current widget
    */
-  async refresh(): Promise<void> {
+  public async refresh(): Promise<void> {
     return btt.do('refresh_widget', { uuid: this.uuid });
   }
 
   /**
    * Triggers the widget
    */
-  async click(): Promise<void> {
+  public async click(): Promise<void> {
     return btt.do('execute_assigned_actions_for_trigger', {
       uuid: this.uuid,
     });
-  }
-
-  /**
-   * Gets existing trigger instance
-   * @param config
-   */
-  static get(config: Types.IWidgetConfig) {
-    return new this(config);
   }
 }
 
@@ -83,7 +89,7 @@ class Widget {
  * that triggers / widgets are created on the right BTT webserver
  * @param bttInstance 
  */
-export default function init(bttInstance: Types.IBTT) {
+export default function init(bttInstance: BTT): WidgetStatic<Types.IWidgetConfig> {
   // silly way to inject BTT class
   btt = bttInstance;
   return Widget;

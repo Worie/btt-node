@@ -1,18 +1,5 @@
-## btt-node [![npm version](https://badge.fury.io/js/btt-node.svg)](https://badge.fury.io/js/btt-node)
-
-### THIS IS ALPHA VERSION OF THE PACKAGE, STILL IN DEVELOPMENT
-
-Easier way to manage your BetterTouchTool within nodejs environment.
-
-It's based on BetterTouchTool built in webserver API.
-
-### Installation
-`$ npm install btt-node`
-
-### Example usage
-
-```js
-  const BTT = require('btt-node');
+// get the package as a dependency
+const BTT = require('btt-node');
 
   // initialize main BTT instance
   const btt = new BTT({
@@ -59,8 +46,3 @@ It's based on BetterTouchTool built in webserver API.
 
   // calls predefined trigger
   trigger.invoke();
-```
-
-Every method of newly created Widget / Trigger instance of BTT returns a Promise<void>
-
-README will be updated soon.

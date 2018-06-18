@@ -1,13 +1,14 @@
 import * as Util from './util';
 import * as Types from './types';
-import Trigger from './trigger';
-import Widget from './widget';
+import TriggerInit, { Trigger, TriggerStatic } from './trigger';
+import WidgetInit, { Widget, WidgetStatic } from './widget';
 import fetch from 'node-fetch-polyfill';
+import Actions from './actions';
 
 /**
  * Class used to manage the BTT webserver 
  */
-class BTT implements Types.IBTT {
+class BTT {
   // holds the domain name / ip address where BTT webserver is
   private domain: string;
 
@@ -20,39 +21,50 @@ class BTT implements Types.IBTT {
   // shared key, needed if you set up webserver to allow only specific calls
   private sharedKey: string;
 
-  // holds Trigger class
-  public readonly Trigger: any;
+  // version of BTT
+  private version: string;
+
+  // holds various actions definitions
+  private actions: any;
+
+  // stores a Trigger factory
+  public Trigger: TriggerStatic<Types.ITriggerConfig>;
   
-  // holds Widget class
-  public readonly Widget: any;
+  // stores a Widget factory
+  public Widget: WidgetStatic<Types.IWidgetConfig>;
+
 
   /**
    * Constructor for BetterTouchTool webserver related actions
    * @param {*} config 
    */
   constructor(config: Types.IBTTConfig) {
-    const { domain, port, protocol, sharedKey } = config;
+    const { domain, port, protocol, sharedKey, version } = config;
     
     if (!domain || !port || !protocol) {
-      throw new Error('Missing config');
+      throw new Error('Missing required config');
     }
 
     this.domain = domain;
     this.port = port;
     this.protocol = protocol;
     this.sharedKey = sharedKey;
+    this.version = version;
+    
+    // get all the actions
+    this.actions = Actions.bind(this)();
 
-    // that looks creepy and probably I'm doing something wrong here
-    // get class with scoped dependency of current BTT instance
-    this.Trigger = Trigger(this);
-
-    this.Widget = Widget(this);
+    // initialize the Trigger factory
+    this.Trigger = TriggerInit(this);
+    
+    // initialize the Widget factory
+    this.Widget = WidgetInit(this);
   }
 
   /**
    * Returns a base url for the BTT webserver endpoint
    */
-  get url(): string {
+  private get url(): string {
     return `${this.protocol}://${this.domain}:${this.port}/`;
   }
 
@@ -61,9 +73,27 @@ class BTT implements Types.IBTT {
    * @param {*} action
    * @param {*} data 
    */
-  async do(action: string, data: Record<string, any>): Promise<void> {
-    const url = `${this.url}${action}/?${this.params(data)}`;
-    return fetch(url);
+  public do(action: string, data: Record<string, any>): Promise<void> {
+    try {
+      const url = `${this.url}${action}/?${this.params(data)}`;
+      return fetch(url);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  /**
+   * Returns current config of the instance
+   * may be handy with factory functions?
+   */
+  public get config(): Types.IBTTConfig {
+    return {
+      domain: this.domain,
+      version: this.version,
+      sharedKey: this.sharedKey,
+      port: this.port,
+      protocol: this.protocol,
+    };
   }
 
   /**
@@ -72,6 +102,7 @@ class BTT implements Types.IBTT {
    * @param {*} data 
    */
   private params(data: Record<string, string>): string {
+    // parses keys of the object into query params
     const params = Object.keys(data).map(param => {
       return `${param}=${Util.escapeForBtt(data[param])}`;
     }).join('&');
@@ -82,6 +113,55 @@ class BTT implements Types.IBTT {
     }
 
     return params;
+  }
+
+  /** ACTIONS */
+
+  /**
+   * Sends shortcut to the application
+   * @param shortcut 
+   * @param applicationPath 
+   */
+  public sendShortcut(shortcut: string, applicationPath: string) {
+    return this.actions.sendShortcut(shortcut, applicationPath);
+  }
+
+  /**
+   * Sets the volume of the system
+   * @param volume 
+   */
+  public setVolume(volume: string) {
+    return this.actions.setVolume(volume);
+  }
+
+  /**
+   * Toggles do not disturb mode
+   */
+  public toggleDnD() {
+    return this.actions.toggleDnD();
+  }
+
+  /**
+   * Toggles night shift
+   */
+  public toggleNightShift() {
+    return this.actions.toggleNightShift();
+  }
+
+  /**
+   * Triggers system wide keyboard shortcut
+   * @param shortcut 
+   */
+  public triggerShortcut(shortcut: string) {
+    return this.actions.triggerShortcut(shortcut);
+  }
+
+  /**
+   * Shows HUD with given config
+   * @param config 
+   */
+  public showHUD(config: Types.IShowHUDConfig) {
+    return this.actions.showHUD(config);
   }
 }
 

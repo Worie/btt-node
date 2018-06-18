@@ -1,13 +1,29 @@
 /**
- * Represents BTT Trigger. Shouldn't be called directly
+ * Represents BTT Trigger.
+ * For "typings structure" refer to the https://github.com/Microsoft/TypeScript/issues/13462#issuecomment-295685298
  */
 
 import * as Types from './types';
+import BTT from './btt';
 
-// fix typings
-let btt: Types.IBTT;
+// scoped instance of BTT
+let btt: BTT;
 
-class Trigger {
+/* static interface declaration */
+export interface TriggerStatic<T> extends Types.Type<Trigger<T>> {
+  invoke(json: any): Promise<void>;
+  create(data: Types.ITriggerConfig): Promise<Trigger<T>>;
+  delete(uuid: string): Promise<void>;
+}
+
+/* interface declaration */
+export interface Trigger<T> {
+  invoke(): Promise<void>;
+  update(data: any): Promise<void>
+}
+
+@Types.staticImplements<TriggerStatic<Trigger<T>>>()
+export class Trigger<T> {
   // holds the uuid of the newly created / initialized trigger
   private uuid: string;
   
@@ -18,7 +34,7 @@ class Trigger {
    * Constructs the Trigger instance, sets the uuid and name for further calls
    * @param {*} config 
    */
-  private constructor(config: Types.ITriggerConfig) {
+  public constructor(config: Types.ITriggerConfig) {
     this.uuid = config.uuid;
     this.name = config.name;
   }
@@ -69,18 +85,10 @@ class Trigger {
   }
 
   /**
-   * Gets existing trigger instance
-   * @param config
-   */
-  static get(config: Types.ITriggerConfig) {
-    return new this(config);
-  }
-
-  /**
    * Creates a new trigger and returns it instance 
    * @param config 
    */
-  static async create(data: any): Promise<Trigger> {
+  static async create(data: any): Promise<Trigger<Types.ITriggerConfig>> {
     // create it here basing on config
     await btt.do('add_new_trigger', {
       json: JSON.stringify(data),
@@ -91,7 +99,7 @@ class Trigger {
       ...data.name,
     };
 
-    return this.get(config);
+    return new this(config);
   }
   
   /**
@@ -110,8 +118,9 @@ class Trigger {
  * that triggers / widgets are created on the right BTT webserver
  * @param bttInstance 
  */
-export default function init(bttInstance: Types.IBTT) {
+export default function init(bttInstance: BTT): TriggerStatic<Types.ITriggerConfig> {
   // silly way to inject BTT class
   btt = bttInstance;
+  
   return Trigger;
 }

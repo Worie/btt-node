@@ -5,7 +5,8 @@
       "noImplicitAny": true,
       "module": "commonjs",
       "target": "ES2015",
-      "allowJs": true
+      "allowJs": true,
+      "experimentalDecorators": true,
     }
   }
   
