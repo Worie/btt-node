@@ -21,9 +21,11 @@
   "license": "MIT",
   "dependencies": {
     "child_process": "^1.0.2",
-    "node-fetch-polyfill": "^2.0.6"
+    "node-fetch-polyfill": "^2.0.6",
+    "uuidv4": "^1.0.1"
   },
   "devDependencies": {
+    "@types/node": "^10.3.4",
     "auto-changelog": "^1.7.0",
     "generate-changelog": "^1.7.1",
     "ts-loader": "^4.4.1",

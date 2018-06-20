@@ -49,6 +49,10 @@ export enum ACTION {
   TOGGLE_MOUSE_SPEED = 126,
   TOGGLE_MOUSE_CURSOR = 140,
   TOGGLE_MOUSE_SIZE = 123,
+  KEYBOARD_BRIGHTNESS_UP = 31,
+  KEYBOARD_BRIGHTNESS_DOWN = 32,
+  TOGGLE_DARK_MODE = 197,
+  SHOW_WEB_VIEW = 249,
 };
 
 
@@ -78,4 +82,28 @@ export interface IMoveMouseConfig {
   x: number;
   y: number;
   relativeTo: number;
+}
+
+export interface IShowWebViewConfig {
+  width: number;
+  height: number;
+  name: string;
+  x?: number;
+  y?: number;
+  url?: string;
+  html?: string;
+  config?: IFloatingHTMLConfig;
+}
+
+export interface IFloatingHTMLConfig {
+  cache?: boolean;
+  closeOnClickOut?: boolean;
+  whiteBackground?: boolean;
+  closeOnBrowserOpen?: boolean;
+  showButtons?: boolean;
+}
+
+export interface IRect {
+  x: number,
+  y: number;
 }

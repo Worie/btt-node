@@ -257,6 +257,29 @@ class BTT {
   public toggleMouseSize() {
     return this.actions.toggleMouseSize();
   }
+
+  /**
+   * Manages the keyboard bright
+   * @param mode 'up' | 'down'
+   */
+  public keyBrightness(mode: string) {
+    return this.actions.keyBrightness(mode);
+  }
+
+  /**
+   * Toggles the system dark mode 
+   */
+  public toggleDarkMode() {
+    return this.actions.toggleDarkMode();
+  }
+
+  /**
+   * Opens a web view
+   * @param config 
+   */
+  public showWebView(config: Types.IShowWebViewConfig) {
+    return this.actions.showWebView(config);
+  }
 }
 
 export default BTT;

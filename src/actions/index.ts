@@ -16,6 +16,9 @@ import moveMouse from './moveMouse';
 import toggleMouseSpeed from './toggleMouseSpeed';
 import toggleMouseCursor from './toggleMouseCursor';
 import toggleMouseSize from './toggleMouseSize';
+import keyBrightness from './keyBrightness';
+import toggleDarkMode from './toggleDarkMode';
+import showWebView from './showWebView';
 
 const actionsList = [
   triggerShortcut,
@@ -36,6 +39,9 @@ const actionsList = [
   toggleMouseSpeed,
   toggleMouseCursor,
   toggleMouseSize,
+  keyBrightness,
+  toggleDarkMode,
+  showWebView,
 ];
 
 export default function init() {
