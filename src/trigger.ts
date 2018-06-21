@@ -4,7 +4,7 @@
  */
 
 import * as Types from './types';
-import BTT from './btt';
+import { BTT } from './btt';
 
 // scoped instance of BTT
 let btt: BTT;

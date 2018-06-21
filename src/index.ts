@@ -1,3 +1,4 @@
-import BTT from './btt';
+import '../definitions';
 
-export default BTT;
+export { BTT } from './btt';
+export * from './types';

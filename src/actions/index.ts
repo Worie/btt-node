@@ -19,6 +19,11 @@ import toggleMouseSize from './toggleMouseSize';
 import keyBrightness from './keyBrightness';
 import toggleDarkMode from './toggleDarkMode';
 import showWebView from './showWebView';
+import lockScreen from './lockScreen';
+import logout from './logout';
+import sleepDisplay from './sleepDisplay';
+import sleepComputer from './sleepComputer';
+import restart from './restart';
 
 const actionsList = [
   triggerShortcut,
@@ -42,6 +47,11 @@ const actionsList = [
   keyBrightness,
   toggleDarkMode,
   showWebView,
+  lockScreen,
+  logout,
+  sleepDisplay,
+  sleepComputer,
+  restart,
 ];
 
 export default function init() {

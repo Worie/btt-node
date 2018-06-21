@@ -1,5 +1,5 @@
 import { mapShortcutNotationToBTT } from '../util/keys';
-import { ACTION } from 'types';
+import { ACTION } from '../types';
 
 /**
  * Gets valid JSON for given action
@@ -27,4 +27,4 @@ export default function triggerShortcut(shortcut: string) {
   return this.do('trigger_action', {
     json: getJSON(shortcut)
   });
-} 
+}

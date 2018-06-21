@@ -8,7 +8,7 @@ import Actions from './actions';
 /**
  * Class used to manage the BTT webserver 
  */
-class BTT {
+export class BTT {
   // holds the domain name / ip address where BTT webserver is
   private domain: string;
 
@@ -280,6 +280,39 @@ class BTT {
   public showWebView(config: Types.IShowWebViewConfig) {
     return this.actions.showWebView(config);
   }
-}
 
-export default BTT;
+  /**
+   * Locks the screen
+   */
+  public lockScreen() {
+    return this.actions.lockScreen();
+  }
+
+  /**
+   * Logouts current user
+   */
+  public logout() {
+    return this.actions.logout();
+  }
+
+  /**
+   * Sleeps computer display
+   */
+  public sleepDisplay() {
+    return this.actions.sleepDisplay();
+  }
+
+  /**
+   * Sleeps computer
+   */
+  public sleepComputer() {
+    return this.actions.sleepComputer();
+  }
+
+  /**
+   * Restarts BetterTouchTool
+   */
+  public restart() {
+    return this.actions.restart();
+  }
+}
