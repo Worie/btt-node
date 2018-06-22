@@ -16,14 +16,20 @@ export interface IWidgetConfig {
   default: Function;
 }
 
-
 export interface IActionRequirements {
-  // a version in which this action has been introduced
+  // a BTT version in which this action has been introduced
   min: string;
-  // a version in which this action has become deprecated
-  max: string;
+  // a BTT version in which this action has become deprecated
+  max?: string;
   // versions in which this action seems buggy
-  bugged: string[]; 
+  buggy?: string[]; 
+  // optional name of an action
+  name?: string;
+}
+
+export interface IActionConfig {
+  requirements: IActionRequirements;
+  name: string;
 }
 
 export enum ACTION {
@@ -73,22 +79,22 @@ export function staticImplements<T>() {
 }
 
 export interface IShowHUDConfig {
-  title: string;
-  details: string;
-  duration: number;
-  background: string;
-  direction: number;
+  title?: string;
+  details?: string;
+  duration?: number;
+  background?: string;
+  direction?: number;
 }
 
 export interface ISendTextConfig {
   text: string;
-  moveCursorLeft: number;
+  moveCursorLeft?: number;
 }
 
 export interface IMoveMouseConfig {
   x: number;
   y: number;
-  relativeTo: number;
+  relativeTo?: number;
 }
 
 export interface IShowWebViewConfig {
@@ -113,4 +119,8 @@ export interface IFloatingHTMLConfig {
 export interface IRect {
   x: number,
   y: number;
+}
+
+export interface IAction {
+  (...args: any[]): Promise<void>;
 }

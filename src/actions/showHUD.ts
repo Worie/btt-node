@@ -12,9 +12,9 @@ function getJSON(config: Types.IShowHUDConfig): any {
   const BTTAdditionalConfig: any = {
     "BTTActionHUDDetail": details,
     "BTTActionHUDTitle": title,
-    "BTTActionHUDDuration": reasonableDuration,
-    "BTTActionHUDBackground": background, //"114.773936, 250.237260, 120.947282, 50.145815",
-    "BTTActionHUDSlideDirection": direction // 0
+    "BTTActionHUDDuration": reasonableDuration || 0.8,
+    "BTTActionHUDBackground": background, 
+    "BTTActionHUDSlideDirection": direction,
   };
   
   const result: string = JSON.stringify({

@@ -1,4 +1,4 @@
-import { ACTION } from '../types';
+import * as Types from '../types';
 
 /**
  * Gets valid JSON for given action
@@ -6,7 +6,7 @@ import { ACTION } from '../types';
  */
 function getJSON(): any {
   return JSON.stringify({
-    "BTTPredefinedActionType" : ACTION.TOGGLE_DND,
+    "BTTPredefinedActionType" : Types.ACTION.TOGGLE_DND,
     "BTTEnabled2" : 1,
     "BTTEnabled" : 1,
   });

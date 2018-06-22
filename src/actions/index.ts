@@ -1,3 +1,5 @@
+import * as Types from '../types';
+
 import triggerShortcut from './triggerShortcut';
 import sendShortcut from './sendShortcut';
 import toggleDnD from './toggleDnD';
@@ -55,9 +57,9 @@ const actionsList = [
 ];
 
 export default function init() {
-  const actions: Record<string, Function> = {};
+  const actions: Record<string, Types.IAction> = {};
 
-  actionsList.forEach((action: Function) => {
+  actionsList.forEach((action: Types.IAction) => {
     actions[action.name] = action.bind(this);
   });
 

@@ -12,7 +12,7 @@ function getJSON(config: Types.ISendTextConfig): any {
     "BTTEnabled2" : 1,
     "BTTEnabled" : 1,
     "BTTMoveCursorLeftBy" : `${moveCursorLeft}`,
-    "BTTStringToType" : `${text}`,
+    "BTTStringToType" : `${text || 0}`,
   });
 }
 

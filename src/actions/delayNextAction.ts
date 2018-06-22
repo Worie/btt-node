@@ -3,7 +3,7 @@ import { ACTION } from '../types';
 function getJSON(time: number): any {
   return JSON.stringify({
     "BTTPredefinedActionType" : ACTION.DELAY_NEXT_ACTION,
-    "BTTDelayNextActionBy" : String(time),
+    "BTTDelayNextActionBy" : String(time / 1000),
     "BTTEnabled2" : 1,
     "BTTEnabled" : 1,
   });

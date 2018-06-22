@@ -229,7 +229,9 @@ export function mapShortcutNotationToBTT(shortcut: string): string {
   
     // in case there was no such key, throw an error
     if (!matchedKey) {
-      throw new Error('Improper key requested');
+      const keys = KEYS.map((keyObj: IKey) => keyObj.key.toLowerCase());
+      console.error('Improper key requested. Available options:', `[${keys.join(', ')}]`);
+      throw new Error();
     }
 
     return matchedKey.code;

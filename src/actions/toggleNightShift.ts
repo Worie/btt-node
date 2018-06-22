@@ -1,13 +1,12 @@
-import { ACTION } from '../types';
+import * as Types from '../types';
 
 /**
  * Gets valid JSON for given action
  * @param shortcut 
  */
 function getJSON(): any {
-  
   return JSON.stringify({
-    "BTTPredefinedActionType" : ACTION.TOGGLE_NIGHT_SHIFT,
+    "BTTPredefinedActionType" : Types.ACTION.TOGGLE_NIGHT_SHIFT,
     "BTTEnabled2" : 1,
     "BTTEnabled" : 1,
   });

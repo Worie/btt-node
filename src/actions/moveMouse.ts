@@ -9,7 +9,7 @@ function getJSON(config: Types.IMoveMouseConfig): any {
   const result: string = JSON.stringify({
     "BTTPredefinedActionType" : Types.ACTION.MOVE_MOUSE,
     "BTTMoveMouseToPosition" : `{${x}, ${y}`,
-    "BTTMoveMouseRelative" : `${relativeTo}`,
+    "BTTMoveMouseRelative" : `${relativeTo || 0}`,
     "BTTEnabled2" : 1,
     "BTTEnabled" : 1,
   });
