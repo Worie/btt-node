@@ -33,7 +33,6 @@ export class BTT {
   // stores a Widget factory
   public Widget: WidgetStatic<Types.IWidgetConfig>;
 
-
   /**
    * Creates BTT instance which communicates with BetterTouchTool built in webserver
    */
@@ -73,7 +72,6 @@ export class BTT {
   public do(action: string, data: Record<string, any>): Promise<void> {
     try {
       const url = `${this.url}${action}/?${this.params(data)}`;
-      console.log(url);
       return fetch(url);
     } catch (error) {
       console.error(error);
