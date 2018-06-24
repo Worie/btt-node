@@ -71,7 +71,8 @@ export class BTT {
    */
   public do(action: string, data: Record<string, any>): Promise<void> {
     try {
-      const url = `${this.url}${action}/?${this.params(data)}`;
+      const params = `?${this.params(data)}`;
+      const url = `${this.url}${action}/${params}`;
       return fetch(url);
     } catch (error) {
       console.error(error);
@@ -99,7 +100,7 @@ export class BTT {
   private params(data: Record<string, string>): string {
     // parses keys of the object into query params
     const params = Object.keys(data).map(param => {
-      return `${param}=${Util.escapeForBtt(data[param])}`;
+      return `${param}=${encodeURIComponent(data[param])}`;
     }).join('&');
 
     // if sharedKey was passed, add shared_key get parameter to enable the calls

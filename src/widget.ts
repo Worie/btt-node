@@ -42,7 +42,7 @@ export class Widget<T> {
    * Updates the current widget with given data
    * @param {*} data 
    */
-  async update(data: any): Promise<void> {
+  async update(data?: any): Promise<void> {
     // if there was no data passed, nor there was no default fallback
     if (!data && !this.default) {
       // show a warning and stop the execution of the function
