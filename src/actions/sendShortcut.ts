@@ -1,6 +1,14 @@
 import { mapShortcutNotationToBTT } from '../util/keys';
 import { ACTION } from '../types';
-import * as Util from '../util';
+import * as DetectNode from 'detect-node';
+
+let getMdlsName: any;
+
+if (DetectNode) {
+  getMdlsName = require('../backend/util').getMdlsName;
+} else {
+  getMdlsName = (): null => undefined;
+}
 
 /**
  * Gets valid JSON for given action
@@ -9,17 +17,23 @@ import * as Util from '../util';
 function getJSON(
   shortcut: string, 
   applicationPath: string,
+  mdlsName?: string
 ): any {
   
   const shortcutToSend: string = mapShortcutNotationToBTT(shortcut);
 
-  const mdlsName = Util.getMdlsName(applicationPath);
+  const mdlsValue = getMdlsName(applicationPath) || mdlsName;
+
+  if (!mdlsValue) {
+    console.error(`Sorry, you'll have to manually provide mdls name of the app for this action to work`);
+    return;
+  }
   
   const result = JSON.stringify({
     "BTTPredefinedActionType" : ACTION.SEND_SHORTCUT_TO_APP,
     "BTTShortcutApp" : applicationPath,
     "BTTShortcutToSend" : shortcutToSend,
-    "BTTShortcutAppUnderCursor": mdlsName.replace('/', '\\/'),
+    "BTTShortcutAppUnderCursor": mdlsValue.replace('/', '\\/'),
     "BTTEnabled2" : 1,
     "BTTEnabled" : 1,
   });
@@ -35,8 +49,9 @@ function getJSON(
 export default function sendShortcut(
   shortcut: string,
   applicationPath: string,
+  mdlsName?: string
 ) {
   return this.do('trigger_action', {
-    json: getJSON(shortcut, applicationPath),
+    json: getJSON(shortcut, applicationPath, mdlsName),
   });
 }

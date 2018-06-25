@@ -1,9 +1,18 @@
-import * as Util from './util';
 import * as Types from './types';
 import TriggerInit, { TriggerStatic } from './trigger';
 import WidgetInit, { WidgetStatic } from './widget';
-import fetch from 'node-fetch-polyfill';
+import Axios from 'axios';
 import Actions from './actions';
+
+// TODO: 
+// - Check if BTT server is running upon initialisation - detect-node
+// - Get rid of child_process and other dependencies that are not portable to frontend
+// - Action that has a method (static?) get URL or smth
+// - BTT, and all reuse the helpers - so theres no need for circular dependecy 
+// - Extends does not make much sense 
+// - Use axios to have fetching handled in both frontend and backend
+// - Alternatively: find out a proper way to inject dependencies so it works both ways (later)
+// - 
 
 /**
  * Class used to manage the BTT webserver 
@@ -50,12 +59,15 @@ export class BTT {
     this.version = version;
     
     // get all the actions
+    // Actions.init(config);
     this.actions = Actions.bind(this)();
 
     // initialize the Trigger factory
+    // Trigger.init(config);
     this.Trigger = TriggerInit(this);
     
     // initialize the Widget factory
+    // Widget.init(config);
     this.Widget = WidgetInit(this);
   }
 
@@ -69,11 +81,12 @@ export class BTT {
   /**
    * Sends a request to real BTT built in webserver with given data translated as GET query params
    */
-  public do(action: string, data: Record<string, any>): Promise<void> {
+  public do(action: string, data: Record<string, any>): Promise<any> {
     try {
       const params = `?${this.params(data)}`;
       const url = `${this.url}${action}/${params}`;
-      return fetch(url);
+      
+      return Axios.get(url);;
     } catch (error) {
       console.error(error);
     }
@@ -114,7 +127,7 @@ export class BTT {
   /** ACTIONS */
 
   /**
-   * Sends shortcut to the application. Some apps need to have focus so they can recieve shortcuts.
+   * Sends shortcut to txhe application. Some apps need to have focus so they can recieve shortcuts.
    * 
    * @param shortcut key identifiers separated by space
    * @param applicationPath absolute path pointing to the app which should recieve shortcut

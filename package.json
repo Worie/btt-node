@@ -21,9 +21,12 @@
   "author": "Wojciech Połowniak",
   "license": "MIT",
   "dependencies": {
+    "@types/uuid": "^3.4.3",
+    "axios": "^0.18.0",
     "child_process": "^1.0.2",
+    "detect-node": "^2.0.3",
     "node-fetch-polyfill": "^2.0.6",
-    "uuidv4": "^1.0.1"
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "@types/node": "^10.3.4",

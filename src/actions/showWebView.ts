@@ -1,5 +1,5 @@
 import * as Types from '../types';
-import * as UUID from 'uuidv4'; 
+import * as uuidv4 from 'uuid/v4'; 
 
 /**
  * Gets valid JSON for given action
@@ -30,7 +30,7 @@ function getJSON(data: Types.IShowWebViewConfig): any {
     "BTTEnabled2" : 1,
     "BTTEnabled" : 1,
     "BTTActionFloatingHTMLName": data.name,
-    "BTTUUID": UUID.fromString(data.name),
+    "BTTUUID": uuidv4(),
   };
 
   if (data.url) {

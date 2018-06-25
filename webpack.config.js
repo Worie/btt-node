@@ -12,7 +12,7 @@ module.exports = {
       }
     ]
   },
-  externals: [nodeExternals()],
+  externals: ['child_process'],
   resolve: {
     modules: [
         path.resolve(__dirname, 'node_modules'),

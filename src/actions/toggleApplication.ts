@@ -1,5 +1,14 @@
 import * as Types from '../types';
-import * as Util from '../util';
+import * as DetectNode from 'detect-node';
+
+let getMdlsName: any;
+
+if (DetectNode) {
+  getMdlsName = require('../backend/util').getMdlsName;
+} else {
+  getMdlsName = (): null => undefined;
+}
+
 
 /**
  * Gets valid JSON for given action
@@ -7,7 +16,12 @@ import * as Util from '../util';
  */
 function getJSON(applicationPath: string): any {
 
-  const mdlsName: string = Util.getMdlsName(applicationPath);
+  const mdlsName: string = getMdlsName(applicationPath);
+  
+  if (!mdlsName) {
+    console.error(`Sorry, you'll have to manually provide mdls name of the app for this action to work`);
+    return;
+  }
 
   return JSON.stringify({
     "BTTPredefinedActionType" : Types.ACTION.TOGGLE_APPLICATION,
