@@ -1,127 +1,52 @@
-import * as Types from './types';
-import TriggerInit, { TriggerStatic } from './trigger';
-import WidgetInit, { WidgetStatic } from './widget';
-import Axios from 'axios';
-import Actions from './actions';
+import * as Trigger from './common/trigger/index';
+import * as Widget from './common/widget/index';
+import Actions from './common/actions/index';
+import * as CommonUtils from './common/util';
 
 // TODO: 
-// - Check if BTT server is running upon initialisation - detect-node
-// - Get rid of child_process and other dependencies that are not portable to frontend
+// - Check if BTT server is running upon initialisation
 // - Action that has a method (static?) get URL or smth
 // - BTT, and all reuse the helpers - so theres no need for circular dependecy 
-// - Extends does not make much sense 
-// - Use axios to have fetching handled in both frontend and backend
 // - Alternatively: find out a proper way to inject dependencies so it works both ways (later)
-// - 
+// - Fix backend
 
 /**
  * Class used to manage the BTT webserver 
  */
 export class BTT {
-  // holds the domain name / ip address where BTT webserver is
-  private domain: string;
-
-  // holds the port type of the webserver
-  private port: number;
-
-  // holds whether the webserver is encrypted or not
-  private protocol: string;
-
-  // shared key, needed if you set up webserver to allow only specific calls
-  private sharedKey: string;
-
-  // version of BTT
-  private version: string;
-
   // holds various actions definitions
-  private actions: Record<string, Types.IAction>;
+  private actions: Record<string, IAction>;
 
   // stores a Trigger factory
-  public Trigger: TriggerStatic<Types.ITriggerConfig>;
+  public Trigger: Trigger.TriggerStatic<ITriggerConfig>;
   
   // stores a Widget factory
-  public Widget: WidgetStatic<Types.IWidgetConfig>;
+  public Widget: Widget.WidgetStatic<IWidgetConfig>;
+
+  // stores the config from the constructor
+  private config: IBTTConfig;
 
   /**
    * Creates BTT instance which communicates with BetterTouchTool built in webserver
    */
-  constructor(config: Types.IBTTConfig) {
-    const { domain, port, protocol, sharedKey, version } = config;
-    
-    if (!domain || !port || !protocol) {
-      throw new Error('Missing required config');
-    }
-
-    this.domain = domain;
-    this.port = port;
-    this.protocol = protocol;
-    this.sharedKey = sharedKey;
-    this.version = version;
+  constructor(config: IBTTConfig) {
+    this.config = config;
     
     // get all the actions
-    // Actions.init(config);
     this.actions = Actions.bind(this)();
 
     // initialize the Trigger factory
-    // Trigger.init(config);
-    this.Trigger = TriggerInit(this);
+    this.Trigger = Trigger.init(config);
     
     // initialize the Widget factory
-    // Widget.init(config);
-    this.Widget = WidgetInit(this);
-  }
-
-  /**
-   * Returns a base url for the BTT webserver endpoint
-   */
-  private get url(): string {
-    return `${this.protocol}://${this.domain}:${this.port}/`;
+    this.Widget = Widget.init(config);
   }
 
   /**
    * Sends a request to real BTT built in webserver with given data translated as GET query params
    */
   public do(action: string, data: Record<string, any>): Promise<any> {
-    try {
-      const params = `?${this.params(data)}`;
-      const url = `${this.url}${action}/${params}`;
-      
-      return Axios.get(url);;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  /**
-   * Returns current config of the instance
-   * may be handy with factory functions?
-   */
-  public get config(): Types.IBTTConfig {
-    return {
-      domain: this.domain,
-      version: this.version,
-      sharedKey: this.sharedKey,
-      port: this.port,
-      protocol: this.protocol,
-    };
-  }
-
-  /**
-   * Parses given list of params (key-value object) and converts it 
-   * to query parameters
-   */
-  private params(data: Record<string, string>): string {
-    // parses keys of the object into query params
-    const params = Object.keys(data).map(param => {
-      return `${param}=${encodeURIComponent(data[param])}`;
-    }).join('&');
-
-    // if sharedKey was passed, add shared_key get parameter to enable the calls
-    if (this.sharedKey) {
-      return `${params}&shared_key=${this.sharedKey}`;
-    }
-
-    return params;
+    return CommonUtils.makeAction(action, data, this.config);
   }
 
   /** ACTIONS */
@@ -131,9 +56,18 @@ export class BTT {
    * 
    * @param shortcut key identifiers separated by space
    * @param applicationPath absolute path pointing to the app which should recieve shortcut
+   * @param applicationPath required for BTT to recognize the app, whithin browser env must be provided manually
    */
-  public async sendShortcut(shortcut: string, applicationPath: string) {
-    return this.actions.sendShortcut(shortcut, applicationPath);
+  public async sendShortcut(
+    shortcut: string,
+    applicationPath: string,
+    mdlsName?: string,
+  ) {
+    return this.actions.sendShortcut(
+      shortcut,
+      applicationPath,
+      mdlsName,
+    );
   }
 
   /**
@@ -169,14 +103,14 @@ export class BTT {
   /**
    * Shows HUD with given config
    */
-  public async showHUD(config: Types.IShowHUDConfig) {
+  public async showHUD(config: IShowHUDConfig) {
     return this.actions.showHUD(config);
   }
 
   /**
    * Sends / Types / Inserts / Pastes custom text
    */
-  public async sendText(config: Types.ISendTextConfig) {
+  public async sendText(config: ISendTextConfig) {
     return this.actions.sendText(config);
   }
 
@@ -239,7 +173,7 @@ export class BTT {
   /**
    * Moves mouse to specified position
    */
-  public async moveMouse(config: Types.IMoveMouseConfig) {
+  public async moveMouse(config: IMoveMouseConfig) {
     return this.actions.moveMouse(config);
   }
 
@@ -282,7 +216,7 @@ export class BTT {
   /**
    * Opens a web view
    */
-  public async showWebView(config: Types.IShowWebViewConfig) {
+  public async showWebView(config: IShowWebViewConfig) {
     return this.actions.showWebView(config);
   }
 

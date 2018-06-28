@@ -1,6 +1,6 @@
 {
   "name": "btt-node",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "A tool for managing BTT webserver easier, in nodejs",
   "main": "./dist/index.js",
   "types": "./btt-node/index.d.ts",
@@ -11,28 +11,16 @@
     "build": "webpack -d --watch",
     "prod": "webpack -p"
   },
-  "auto-changelog": {
-    "output": "CHANGELOG.md",
-    "template": "keepachangelog",
-    "unreleased": false,
-    "commitLimit": false,
-    "issueUrl": "https://github.com/Worie/btt-node/issues/{id}"
-  },
   "author": "Wojciech Połowniak",
   "license": "MIT",
   "dependencies": {
     "@types/uuid": "^3.4.3",
-    "axios": "^0.18.0",
     "child_process": "^1.0.2",
     "detect-node": "^2.0.3",
-    "node-fetch-polyfill": "^2.0.6",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
     "@types/node": "^10.3.4",
-    "auto-changelog": "^1.7.0",
-    "docts": "^0.2.0",
-    "generate-changelog": "^1.7.1",
     "ts-loader": "^4.4.1",
     "typescript": "^2.9.1",
     "webpack": "^4.12.0",

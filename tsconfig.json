@@ -9,6 +9,9 @@
       "experimentalDecorators": true,
       "emitDecoratorMetadata": true,
     },
+    "typeRoots": [
+      "definitions/"
+    ],
     "indentSize": 2,
     "tabSize": 2
   }
