@@ -1,5 +1,6 @@
 import * as Trigger from './common/trigger/index';
 import * as Widget from './common/widget/index';
+import * as State from './common/state';
 import Actions from './common/actions/index';
 import * as CommonUtils from './common/util';
 
@@ -23,6 +24,9 @@ export class BTT {
   // stores a Widget factory
   public Widget: Widget.WidgetStatic<IWidgetConfig>;
 
+  // state, manages BTT variables
+  public state: IState;
+
   // stores the config from the constructor
   private config: IBTTConfig;
 
@@ -40,6 +44,9 @@ export class BTT {
     
     // initialize the Widget factory
     this.Widget = Widget.init(config);
+
+    // initialize the state (variable management)
+    this.state = State.init(config);
   }
 
   /**

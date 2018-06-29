@@ -123,3 +123,8 @@ interface IRect {
 interface IAction {
   (...args: any[]): Promise <void> ;
 }
+
+interface IState {
+  set: (key: string, value: string | number, isPersistent: boolean) => Promise<any>;
+  get: (key: string, mode?: 'string' | 'number') => Promise<number | string>;
+}

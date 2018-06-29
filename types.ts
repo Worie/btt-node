@@ -32,6 +32,11 @@ export interface IActionConfig {
   name: string;
 }
 
+export interface IState {
+  set: (key: string, value: string | number, isPersistent: boolean) => Promise<any>;
+  get: (key: string, mode?: 'string' | 'number') => Promise<number> | Promise<string>;
+}
+
 export enum ACTION {
   SEND_SHORTCUT_TO_APP = 128,
   SEND_SHORTCUT = -1,

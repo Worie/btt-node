@@ -112,11 +112,11 @@ export function init (instanceConfig: IBTTConfig) {
       );
 
       const config: ITriggerConfig = {
-        ...data.uuid,
-        ...data.name,
+        uuid: data.BTTUUID,
+        name: data.BTTTriggerName,
       };
 
-      return new this(config);
+      return new Trigger(config);
     }
       
     /**
