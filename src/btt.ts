@@ -4,12 +4,8 @@ import * as State from './common/state';
 import Actions from './common/actions/index';
 import * as CommonUtils from './common/util';
 
-// TODO: 
+// Reconsiderations: 
 // - Check if BTT server is running upon initialisation
-// - Action that has a method (static?) get URL or smth
-// - BTT, and all reuse the helpers - so theres no need for circular dependecy 
-// - Alternatively: find out a proper way to inject dependencies so it works both ways (later)
-// - Fix backend
 
 /**
  * Class used to manage the BTT webserver 
@@ -55,6 +51,22 @@ export class BTT {
   public do(action: string, data: Record<string, any>): Promise<any> {
     return CommonUtils.makeAction(action, data, this.config);
   }
+
+  // const showSpotlight = btt.triggerShortcut('cmd+space').invoke();
+  // showSpotlight.invoke();
+  // btt.triggerShortcut('cmd+space').invoke();
+  // showSpotlight.url;
+  // showSpotlight.json;
+  // public addEventListener(event: 'string', callback)
+  // translate event to triggertype 
+  // generate uuid 
+  // get jsons
+  // create an abstraction for multiple actions
+  // get a callback
+  // add to ev.actions.push
+  // once added translate to real btt object
+  // should return an identifier / function callback
+  // public removeEventListener(event: '')
 
   /** ACTIONS */
 

@@ -34,7 +34,8 @@ export interface IActionConfig {
 
 export interface IState {
   set: (key: string, value: string | number, isPersistent: boolean) => Promise<any>;
-  get: (key: string, mode?: 'string' | 'number') => Promise<number> | Promise<string>;
+  get: (key: string, mode?: 'string' | 'number') => Promise<number | string>;
+  delete: (key: string) => Promise<any>;
 }
 
 export enum ACTION {
