@@ -34,12 +34,12 @@ export default function (
         "BTTActionHUDSlideDirection": direction,
       };
       
-      const result: string = JSON.stringify({
+      const result: any = {
         "BTTPredefinedActionType" : Types.ACTION.SHOW_HUD,
         "BTTHUDActionConfiguration" : JSON.stringify(BTTAdditionalConfig),
         "BTTEnabled2" : 1,
         "BTTEnabled" : 1,
-      });
+      };
     
       return result;
     }
