@@ -18,10 +18,13 @@ export default abstract class Action {
    * Returns the url of the given action, that this library generates
    */
   public get url(): string {
-    return Url.resolve(
+    let url: string = Url.resolve(
       CommonUtils.getUrl(this.instanceConfig),
-      this.params,
+      'trigger_action/',
     );
+
+    url = Url.resolve(url, `?${this.params}`);
+    return url;
   }
 
   /**
