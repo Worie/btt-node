@@ -1,3 +1,5 @@
+import Action from './src/action';
+
 export interface IBTTConfig {
   domain: string;
   port: number;
@@ -74,8 +76,8 @@ export enum ACTION {
   SWITCH_TO_PRESET = 139,
 }
 
-export interface Type < T > {
-  new(...args: any[]): T;
+export interface Type<T> {
+  new (...args: any[]): T;
 }
 
 export interface IShowHUDConfig {
@@ -121,6 +123,35 @@ export interface IRect {
   y: number;
 }
 
+// export interface IActionReturnValue {
+//   invoke(): Promise<any>;
+//   url: string;
+//   json: any;
+// }
+
+// export interface IMuteAction extends IAction {
+//   (): IActionReturnValue;
+// } 
+
+
+
+/**
+ * used for Actions easier callee :( internal
+ */
 export interface IAction {
-  (...args: any[]): Promise < void > ;
+  init: IActionFunction;
+  name: string;
+}
+
+/**
+ * Used for initializing, getting the btt server dependecies 
+ */
+export interface IActionInitializer {
+  (config: IBTTConfig): IAction;
+}
+
+
+
+export interface IActionFunction {
+  (...args: any[]): Action;
 }

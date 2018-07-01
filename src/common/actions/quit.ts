@@ -1,19 +1,32 @@
-import { ACTION } from '../../../types';
+import * as Types from '../../../types';
+import Action from '../../action';
 
-/**
- * Gets valid JSON for given action
- * @param shortcut 
- */
-function getJSON(): any {
-  return JSON.stringify({
-    "BTTPredefinedActionType" : ACTION.QUIT_BTT,
-    "BTTEnabled2" : 1,
-    "BTTEnabled" : 1,
-  });
-}
+export default function (
+  instanceConfig: Types.IBTTConfig,
+) {
+  class IQuitAction extends Action {
+    // required for injecting current btt instance config
+    protected instanceConfig = instanceConfig;
 
-export default function quit() {
-  return this.do('trigger_action', {
-    json: getJSON(),
-  });
-}
+    /**
+     * Returns a json of the current action. 
+     * url and invoke properties of this class depend on this
+     */
+    public get json(): any {
+      return {
+        "BTTPredefinedActionType" : Types.ACTION.QUIT_BTT,
+        "BTTEnabled2" : 1,
+        "BTTEnabled" : 1,
+      };
+    }
+  }
+
+  return {
+    // this function will be called by user
+    init(): IQuitAction {
+      return new IQuitAction();
+    },
+    // name of the action, used for easier loading of actions
+    name: 'quit',
+  };
+};

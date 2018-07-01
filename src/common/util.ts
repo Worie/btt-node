@@ -1,4 +1,6 @@
 import * as DetectNode from 'detect-node';
+import * as Types from '../../types';
+
 let fetch: any;
 
 if (DetectNode) {
@@ -10,7 +12,7 @@ if (DetectNode) {
 /**
  * Returns a base url for the BTT webserver endpoint
  */
-export function getUrl(config: Partial<IBTTConfig>): string {
+export function getUrl(config: Partial<Types.IBTTConfig>): string {
   const { protocol, domain, port } = config; 
   return `${protocol}://${domain}:${port}/`;
 }
@@ -21,13 +23,13 @@ export function getUrl(config: Partial<IBTTConfig>): string {
 export function makeAction(
   action: string, 
   data: Record<string, any>,
-  config: IBTTConfig,
+  config: Types.IBTTConfig,
 ): Promise<any> {
   try {
     const parameters = `?${params(data, config.sharedKey)}`;
     const url = getUrl(config);
     const urlToFetch = `${url}${action}/${parameters}`;
-
+    console.log(urlToFetch);
     return fetch(urlToFetch);
   } catch (error) {
     console.error(error);
@@ -38,7 +40,7 @@ export function makeAction(
  * Parses given list of params (key-value object) and converts it 
  * to query parameters
  */
-function params(data: Record<string, string>, sharedKey?: string): string {
+export function params(data: Record<string, string>, sharedKey?: string): string {
   // parses keys of the object into query params
   const params = Object.keys(data).map(param => {
     return `${param}=${encodeURIComponent(data[param])}`;

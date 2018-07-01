@@ -1,4 +1,5 @@
-import { ACTION } from '../../../types';
+import * as Types from '../../../types';
+import Action from '../../action';
 import * as DetectNode from 'detect-node';
 
 let getMdlsName: any;
@@ -9,40 +10,63 @@ if (DetectNode) {
   getMdlsName = (): null => undefined;
 }
 
+export default function (
+  instanceConfig: Types.IBTTConfig,
+) {
+  class IToggleApplicaitonAction extends Action {
+    // required for injecting current btt instance config
+    protected instanceConfig = instanceConfig;
 
-/**
- * Gets valid JSON for given action
- * @param config 
- */
-function getJSON(
-  applicationPath: string,
-  mdlsName?: string,
-): any {
+    private applicationPath: string;
+    private mdlsName: string;
 
-  const mdlsValue: string = getMdlsName(applicationPath) || mdlsName;
-  
-  if (!mdlsValue) {
-    console.error(`Sorry, you'll have to manually provide mdls name of the app for this action to work`);
-    return;
+    public constructor(
+      applicationPath: string,
+      mdlsName?: string
+    ) {
+      super(
+        applicationPath,
+        mdlsName,
+      );
+
+      this.applicationPath = applicationPath;
+      this.mdlsName = mdlsName;
+    }
+
+    /**
+     * Returns a json of the current action. 
+     * url and invoke properties of this class depend on this
+     */
+    public get json(): any {
+      const mdlsValue: string = getMdlsName(this.applicationPath) || this.mdlsName;
+      
+      if (!mdlsValue) {
+        console.error(`Sorry, you'll have to manually provide mdls name of the app for this action to work`);
+        return;
+      }
+
+      return JSON.stringify({
+        "BTTPredefinedActionType" : Types.ACTION.TOGGLE_APPLICATION,
+        "BTTAppToShowOrHide": mdlsValue,
+        "BTTEnabled2" : 1,
+        "BTTEnabled" : 1,
+      });
+    }
   }
 
-  return JSON.stringify({
-    "BTTPredefinedActionType" : ACTION.TOGGLE_APPLICATION,
-    "BTTAppToShowOrHide": mdlsValue,
-    "BTTEnabled2" : 1,
-    "BTTEnabled" : 1,
-  });
-}
-
-/**
- * Sends / Types / Inserts / Pastes custom text
- * @param config 
- */
-export default function toggleApplication(
-  applicationPath: string,
-  mdlsName?: string,
-) {
-  return this.do('trigger_action', {
-    json: getJSON(applicationPath, mdlsName),
-  });
-}
+  return {
+    // this function will be called by user
+    init(
+      applicationPath: string,
+      mdlsName?: string,
+    ): IToggleApplicaitonAction {
+      
+      return new IToggleApplicaitonAction(
+        applicationPath,
+        mdlsName,
+      );
+    },
+    // name of the action, used for easier loading of actions
+    name: 'toggleApplication',
+  };
+};

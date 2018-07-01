@@ -1,8 +1,10 @@
 import * as Trigger from './common/trigger/index';
 import * as Widget from './common/widget/index';
 import * as State from './common/state';
-import Actions from './common/actions/index';
+import * as Actions from './common/actions/index';
+import * as Types from '../types';
 import * as CommonUtils from './common/util';
+import Action from './action';
 
 // Reconsiderations: 
 // - Check if BTT server is running upon initialisation
@@ -12,28 +14,28 @@ import * as CommonUtils from './common/util';
  */
 export class BTT {
   // holds various actions definitions
-  private actions: Record<string, IAction>;
+  private actions: Record<string, Types.IActionFunction>;
 
   // stores a Trigger factory
-  public Trigger: Trigger.TriggerStatic<ITriggerConfig>;
+  public Trigger: Trigger.TriggerStatic<Types.ITriggerConfig>;
   
   // stores a Widget factory
-  public Widget: Widget.WidgetStatic<IWidgetConfig>;
+  public Widget: Widget.WidgetStatic<Types.IWidgetConfig>;
 
   // state, manages BTT variables
-  public state: IState;
+  public state: Types.IState;
 
   // stores the config from the constructor
-  private config: IBTTConfig;
+  private config: Types.IBTTConfig;
 
   /**
    * Creates BTT instance which communicates with BetterTouchTool built in webserver
    */
-  constructor(config: IBTTConfig) {
+  constructor(config: Types.IBTTConfig) {
     this.config = config;
     
     // get all the actions
-    this.actions = Actions.bind(this)();
+    this.actions = Actions.init(config);
 
     // initialize the Trigger factory
     this.Trigger = Trigger.init(config);
@@ -52,12 +54,7 @@ export class BTT {
     return CommonUtils.makeAction(action, data, this.config);
   }
 
-  // const showSpotlight = btt.triggerShortcut('cmd+space').invoke();
-  // showSpotlight.invoke();
-  // btt.triggerShortcut('cmd+space').invoke();
-  // showSpotlight.url;
-  // showSpotlight.json;
-  // public addEventListener(event: 'string', callback)
+  // public registerEvent(event: 'string', callback)
   // translate event to triggertype 
   // generate uuid 
   // get jsons
@@ -66,7 +63,7 @@ export class BTT {
   // add to ev.actions.push
   // once added translate to real btt object
   // should return an identifier / function callback
-  // public removeEventListener(event: '')
+  // public removeEvent(eventIdentifier: '')
 
   /** ACTIONS */
 
@@ -77,7 +74,7 @@ export class BTT {
    * @param applicationPath absolute path pointing to the app which should recieve shortcut
    * @param applicationPath required for BTT to recognize the app, whithin browser env must be provided manually
    */
-  public async sendShortcut(
+  public sendShortcut(
     shortcut: string,
     applicationPath: string,
     mdlsName?: string,
@@ -93,21 +90,21 @@ export class BTT {
    * Sets the volume of the system
    * @param volume 
    */
-  public async setVolume(volume: string) {
-    return this.actions.setVolume(volume);
-  }
+  // public async setVolume(volume: string) {
+  //   return this.actions.setVolume(volume);
+  // }
 
   /**
    * Toggles do not disturb mode
    */
-  public async toggleDnD() {
+  public toggleDnD() {
     return this.actions.toggleDnD();
   }
 
   /**
    * Toggles night shift
    */
-  public async toggleNightShift() {
+  public toggleNightShift() {
     return this.actions.toggleNightShift();
   }
 
@@ -115,21 +112,21 @@ export class BTT {
    * Triggers system wide keyboard shortcut
    * @param shortcut key identifiers separated by space
    */
-  public async triggerShortcut(shortcut: string) {
+  public triggerShortcut(shortcut: string) {
     return this.actions.triggerShortcut(shortcut);
   }
 
   /**
    * Shows HUD with given config
    */
-  public async showHUD(config: IShowHUDConfig) {
+  public showHUD(config: Types.IShowHUDConfig) {
     return this.actions.showHUD(config);
   }
 
   /**
    * Sends / Types / Inserts / Pastes custom text
    */
-  public async sendText(config: ISendTextConfig) {
+  public sendText(config: Types.ISendTextConfig) {
     return this.actions.sendText(config);
   }
 
@@ -140,42 +137,42 @@ export class BTT {
    * 
    * @param hapticMode a number representing each mode.
    */
-  public async hapticFeedback(hapticMode: number) {
+  public hapticFeedback(hapticMode: number) {
     return this.actions.hapticFeedback(hapticMode);
   }
 
   /**
    * Open an application on the given path
    */
-  public async launchApplication(applicationPath: string) {
+  public launchApplication(applicationPath: string) {
     return this.actions.launchApplication(applicationPath);
   }
 
   /**
    * Toggles the visibility of given application
    */
-  public async toggleApplication(applicationPath: string) {
+  public toggleApplication(applicationPath: string) {
     return this.actions.toggleApplication(applicationPath);
   }
 
   /**
    * Toggles the mute state in the system
    */
-  public async mute() {
+  public mute() {
     return this.actions.mute();
   }
 
   /**
    * Starts Siri
    */
-  public async startSiri() {
+  public startSiri() {
     return this.actions.startSiri();
   }
 
   /**
    * Toggles the BetterTouchTool gesture recognition
    */
-  public async toggle() {
+  public toggle() {
     return this.actions.toggle();
   }
 
@@ -185,35 +182,35 @@ export class BTT {
    * 
    * @param timeout - time in miliseconds during any action execution will be delayed
    */
-  public async delayNextAction(timeout: number) {
+  public delayNextAction(timeout: number) {
     return this.actions.delayNextAction(timeout);
   }
 
   /**
    * Moves mouse to specified position
    */
-  public async moveMouse(config: IMoveMouseConfig) {
+  public moveMouse(config: Types.IMoveMouseConfig) {
     return this.actions.moveMouse(config);
   }
 
   /**
    * Toggles the mouse speed between a regular and speeded up one
    */
-  public async toggleMouseSpeed() {
+  public toggleMouseSpeed() {
     return this.actions.toggleMouseSpeed();
   }
 
   /**
    * Toggles mouse cursor visibility
    */
-  public async toggleMouseCursor() {
+  public toggleMouseCursor() {
     return this.actions.toggleMouseCursor();
   }
 
   /**
    * Toggles between the big and regular mouse cursor size
    */
-  public async toggleMouseSize() {
+  public toggleMouseSize() {
     return this.actions.toggleMouseSize();
   }
 
@@ -221,56 +218,56 @@ export class BTT {
    * Manages the keyboard bright
    * @param mode 'up' | 'down'
    */
-  public async keyBrightness(mode: string) {
-    return this.actions.keyBrightness(mode);
-  }
+  // public async keyBrightness(mode: string) {
+  //   return this.actions.keyBrightness(mode);
+  // }
 
   /**
    * Toggles the system dark mode 
    */
-  public async toggleDarkMode() {
+  public toggleDarkMode() {
     return this.actions.toggleDarkMode();
   }
 
   /**
    * Opens a web view
    */
-  public async showWebView(config: IShowWebViewConfig) {
+  public showWebView(config: Types.IShowWebViewConfig) {
     return this.actions.showWebView(config);
   }
 
   /**
    * Locks the screen
    */
-  public async lockScreen() {
+  public lockScreen() {
     return this.actions.lockScreen();
   }
 
   /**
    * Logouts current user
    */
-  public async logout() {
+  public logout() {
     return this.actions.logout();
   }
 
   /**
    * Sleeps computer display
    */
-  public async sleepDisplay() {
+  public sleepDisplay() {
     return this.actions.sleepDisplay();
   }
 
   /**
    * Sleeps computer
    */
-  public async sleepComputer() {
+  public sleepComputer() {
     return this.actions.sleepComputer();
   }
 
   /**
    * Restarts BetterTouchTool
    */
-  public async restart() {
+  public restart() {
     return this.actions.restart();
   }
 }

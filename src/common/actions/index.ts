@@ -1,4 +1,4 @@
-
+import * as Types from '../../../types';
 
 import triggerShortcut from './triggerShortcut';
 import sendShortcut from './sendShortcut';
@@ -26,13 +26,15 @@ import logout from './logout';
 import sleepDisplay from './sleepDisplay';
 import sleepComputer from './sleepComputer';
 import restart from './restart';
+import quit from './quit';
+import Action from '../../action';
 
 const actionsList = [
   triggerShortcut,
   sendShortcut,
   toggleDnD,
   toggleNightShift,
-  setVolume,
+  // setVolume,
   showHUD,
   sendText,
   hapticFeedback,
@@ -46,7 +48,7 @@ const actionsList = [
   toggleMouseSpeed,
   toggleMouseCursor,
   toggleMouseSize,
-  keyBrightness,
+  // keyBrightness,
   toggleDarkMode,
   showWebView,
   lockScreen,
@@ -54,13 +56,15 @@ const actionsList = [
   sleepDisplay,
   sleepComputer,
   restart,
+  quit,
 ];
 
-export default function init() {
-  const actions: Record<string, IAction> = {};
-
-  actionsList.forEach((action: IAction) => {
-    actions[action.name] = action.bind(this);
+export function init(config: Types.IBTTConfig) {
+  const actions: Record<string, Types.IActionFunction> = {};    
+  
+  actionsList.forEach((actionInitializer: Types.IActionInitializer) => {
+    const newAction: Types.IAction  = actionInitializer(config);
+    actions[newAction.name] = newAction.init; 
   });
 
   return actions;
