@@ -4,8 +4,9 @@
  */
 
 import * as CommonUtils from '../common/util';
+import * as Types from '../../types';
 
-export function init(instanceConfig: IBTTConfig) {
+export function init(instanceConfig: Types.IBTTConfig) {
 
   /**
    * Sets the variable name to specific value
@@ -78,5 +79,5 @@ export function init(instanceConfig: IBTTConfig) {
     set,
     get,
     delete: del,
-  } as IState;
+  } as Types.IState;
 }

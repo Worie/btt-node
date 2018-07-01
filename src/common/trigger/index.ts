@@ -4,11 +4,12 @@
  */
 
 import * as CommonUtils from '../../common/util';
+import * as Types from '../../../types';
 
 /* static interface declaration */
-export interface TriggerStatic<T> extends Type<Trigger<T>> {
+export interface TriggerStatic<T> extends Types.Type<Trigger<T>> {
   invoke(json: any): Promise<void>;
-  create(data: ITriggerConfig): Promise<Trigger<T>>;
+  create(data: Types.ITriggerConfig): Promise<Trigger<T>>;
   delete(uuid: string): Promise<void>;
 }
 
@@ -18,7 +19,7 @@ export interface Trigger<T> {
   update(data: any): Promise<void>
 }
 
-export function init (instanceConfig: IBTTConfig) {
+export function init (instanceConfig: Types.IBTTConfig) {
   
   @CommonUtils.staticImplements<TriggerStatic<Trigger<T>>>()
   class Trigger<T> {
@@ -32,7 +33,7 @@ export function init (instanceConfig: IBTTConfig) {
      * Constructs the Trigger instance, sets the uuid and name for further calls
      * @param {*} config 
      */
-    public constructor(config: ITriggerConfig) {
+    public constructor(config: Types.ITriggerConfig) {
       this.uuid = config.uuid;
       this.name = config.name;
     }
@@ -101,7 +102,7 @@ export function init (instanceConfig: IBTTConfig) {
      * Creates a new trigger and returns it instance 
      * @param config 
      */
-    static async create(data: any): Promise<Trigger<ITriggerConfig>> {
+    static async create(data: any): Promise<Trigger<Types.ITriggerConfig>> {
       // create it here basing on config
       await CommonUtils.makeAction(
         'add_new_trigger',
@@ -111,7 +112,7 @@ export function init (instanceConfig: IBTTConfig) {
         instanceConfig,
       );
 
-      const config: ITriggerConfig = {
+      const config: Types.ITriggerConfig = {
         uuid: data.BTTUUID,
         name: data.BTTTriggerName,
       };

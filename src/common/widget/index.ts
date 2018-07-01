@@ -4,9 +4,10 @@
  */
 
 import * as CommonUtils from '../../common/util';
+import * as Types from '../../../types';
 
 /* static interface declaration */
-export interface WidgetStatic<T> extends Type<Widget<T>> {}
+export interface WidgetStatic<T> extends Types.Type<Widget<T>> {}
 
 /* interface declaration */
 export interface Widget<T> {
@@ -15,7 +16,7 @@ export interface Widget<T> {
   update(data?: any): Promise<void>;
 }
 
-export function init(instanceConfig: IBTTConfig) {
+export function init(instanceConfig: Types.IBTTConfig) {
   
   @CommonUtils.staticImplements<WidgetStatic<Widget<T>>>()
   class Widget<T> {
@@ -29,7 +30,7 @@ export function init(instanceConfig: IBTTConfig) {
      * Creates an instance representing BTT Widget
      * @param {*} config 
      */
-    public constructor(config: IWidgetConfig) {
+    public constructor(config: Types.IWidgetConfig) {
       this.uuid = config.uuid;
       this.default = config.default;
     }
