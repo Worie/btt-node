@@ -29,7 +29,6 @@ export function makeAction(
     const parameters = `?${params(data, config.sharedKey)}`;
     const url = getUrl(config);
     const urlToFetch = `${url}${action}/${parameters}`;
-    console.log(urlToFetch);
     return fetch(urlToFetch);
   } catch (error) {
     console.error(error);
