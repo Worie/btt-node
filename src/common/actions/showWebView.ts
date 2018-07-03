@@ -61,7 +61,7 @@ export default function (
         console.warn('Something went wrong - nor url nor html was passed');
       }
     
-      return JSON.stringify(result);;
+      return result;
     }
   }
 
