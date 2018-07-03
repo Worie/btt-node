@@ -1,6 +1,6 @@
 {
   "name": "btt-node",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "A tool for managing BTT webserver easier, in nodejs",
   "main": "./dist/index.js",
   "types": "./btt-node/index.d.ts",
@@ -15,6 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/uuid": "^3.4.3",
+    "camelcase": "^5.0.0",
     "child_process": "^1.0.2",
     "detect-node": "^2.0.3",
     "uuid": "^3.2.1"

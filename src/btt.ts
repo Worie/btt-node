@@ -6,9 +6,6 @@ import * as Types from '../types';
 import * as CommonUtils from './common/util';
 import Action from './action';
 
-// Reconsiderations: 
-// - Check if BTT server is running upon initialisation
-
 /**
  * Class used to manage the BTT webserver 
  */
@@ -27,6 +24,9 @@ export class BTT {
 
   // stores the config from the constructor
   private config: Types.IBTTConfig;
+
+  // namespace for uuid/v5
+  private static namespace: string = '87a84aef-11fe-4dce-8d00-429cea46f345';
 
   /**
    * Creates BTT instance which communicates with BetterTouchTool built in webserver
@@ -48,22 +48,71 @@ export class BTT {
   }
 
   /**
+   * Adds event listener to BTT. Keep in mind this is persistent, so if you call this method twice, 
+   * two entries will be added to BTT. Closing the browser / node process won't make the listeners die
+   * @param eventType 
+   * @param cb 
+   */
+  public addEventListener(eventType: string, cb: (e: any) => {}): void {
+    const actions: Action[] = [];
+    let comment: string = '';
+
+    const event: any = {
+      actions,
+      comment,
+    };
+
+    cb(event);
+
+    // do something with those actions and eventType and the event that we got
+    const batchAction: any = CommonUtils.buildActionSequence(event.actions);
+
+    const listenerJSON: any = CommonUtils.buildTriggerAction(eventType, batchAction, {
+      comment: event.comment,
+    }); 
+
+
+    // set up ids
+    const listenerUuid: string = CommonUtils.generateUuidForString(
+      `${eventType}:${String(cb)}`,
+      BTT.namespace
+    );
+    listenerJSON['BTTUUID'] = listenerUuid;
+    listenerJSON['BTTAdditionalActions'] = listenerJSON['BTTAdditionalActions'].map((action: any) => {
+      return {
+        ...action,
+        "BTTUUID": CommonUtils.generateUuidForString(JSON.stringify(action), listenerUuid),
+      };
+    });
+
+    // end set up ids
+
+    this.do('add_new_trigger', {
+      json: JSON.stringify(listenerJSON)
+    });
+  }
+
+
+  /**
+   * Removes event listener
+   * @param eventType 
+   * @param cb 
+   */
+  public removeEventListener(eventType: string, cb: (e: any) => {}): void {    
+    // get the id from event type, callback and everything
+    const triggerID: string = CommonUtils.generateUuidForString(
+      `${eventType}:${String(cb)}`,
+      BTT.namespace
+    );
+    CommonUtils.deleteTrigger(triggerID);
+  }
+
+  /**
    * Sends a request to real BTT built in webserver with given data translated as GET query params
    */
   public do(action: string, data: Record<string, any>): Promise<any> {
     return CommonUtils.makeAction(action, data, this.config);
   }
-
-  // public registerEvent(event: 'string', callback)
-  // translate event to triggertype 
-  // generate uuid 
-  // get jsons
-  // create an abstraction for multiple actions
-  // get a callback
-  // add to ev.actions.push
-  // once added translate to real btt object
-  // should return an identifier / function callback
-  // public removeEvent(eventIdentifier: '')
 
   /** ACTIONS */
 
