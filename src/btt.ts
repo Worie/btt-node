@@ -53,11 +53,11 @@ export class BTT {
    * @param eventType 
    * @param cb 
    */
-  public addEventListener(eventType: string, cb: (e: any) => {}): void {
+  public addEventListener(eventType: string, cb: (e: Types.IEventCallback) => {}): void {
     const actions: Action[] = [];
     let comment: string = '';
 
-    const event: any = {
+    const event: Types.IEventCallback = {
       actions,
       comment,
     };
@@ -71,12 +71,12 @@ export class BTT {
       comment: event.comment,
     }); 
 
-
     // set up ids
     const listenerUuid: string = CommonUtils.generateUuidForString(
       `${eventType}:${String(cb)}`,
       BTT.namespace
     );
+
     listenerJSON['BTTUUID'] = listenerUuid;
     listenerJSON['BTTAdditionalActions'] = listenerJSON['BTTAdditionalActions'].map((action: any) => {
       return {
@@ -104,6 +104,7 @@ export class BTT {
       `${eventType}:${String(cb)}`,
       BTT.namespace
     );
+  
     CommonUtils.deleteTrigger(triggerID);
   }
 

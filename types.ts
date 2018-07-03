@@ -280,3 +280,10 @@ export interface IActionInitializer {
 export interface IActionFunction {
   (...args: any[]): Action;
 }
+
+export interface IEventCallback { 
+  actions: ActionJSON[],
+  comment: string;
+}
+
+export type ActionJSON = Record<string, any>;
