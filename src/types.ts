@@ -1,4 +1,4 @@
-import Action from './src/action';
+import Action from './action';
 
 export interface IBTTConfig {
   domain: string;
@@ -278,7 +278,7 @@ export interface IActionInitializer {
 
 
 export interface IActionFunction {
-  (...args: any[]): Partial<Action>;
+  (...args: any[]): Action;
 }
 
 export interface IEventCallback { 
@@ -287,9 +287,3 @@ export interface IEventCallback {
 }
 
 export type ActionJSON = Record<string, any>;
-
-export interface IActionReturnValue {
-  url: string;
-  json: Record<string, string>;
-  invoke: () => Promise<any>;
-}

@@ -10,63 +10,50 @@ if (DetectNode) {
   getMdlsName = (): null => undefined;
 }
 
-export default function (
-  instanceConfig: Types.IBTTConfig,
-) {
-  class IToggleApplicaitonAction extends Action {
-    // required for injecting current btt instance config
-    protected instanceConfig = instanceConfig;
+/**
+ * This action is responsible for disabling / enabling BTT. Does not affect this library or webserver
+ */
+export default class AToggleApplication extends Action { 
+  private applicationPath: string;
+  private mdlsName: string;
 
-    private applicationPath: string;
-    private mdlsName: string;
+  // reference name
+  public static alias: string = 'toggleApplication';
 
-    public constructor(
-      applicationPath: string,
-      mdlsName?: string
-    ) {
-      super(
-        applicationPath,
-        mdlsName,
-      );
-
+  /**
+   * Function that will be called once user requests this action
+   * @param actionConfig 
+   */
+  public init(
+    applicationPath: string,
+    mdlsName?: string,
+  ): Types.IActionReturnValue {
+    if (!this.initialized) {
       this.applicationPath = applicationPath;
       this.mdlsName = mdlsName;
+      this.initialized = true;
     }
-
-    /**
-     * Returns a json of the current action. 
-     * url and invoke properties of this class depend on this
-     */
-    public get json(): any {
-      const mdlsValue: string = getMdlsName(this.applicationPath) || this.mdlsName;
-      
-      if (!mdlsValue) {
-        console.error(`Sorry, you'll have to manually provide mdls name of the app for this action to work`);
-        return;
-      }
-
-      return JSON.stringify({
-        "BTTPredefinedActionType" : Types.ACTION.TOGGLE_APPLICATION,
-        "BTTAppToShowOrHide": mdlsValue,
-        "BTTEnabled2" : 1,
-        "BTTEnabled" : 1,
-      });
-    }
+    
+    return this.partial(this);
   }
 
-  return {
-    // this function will be called by user
-    init(
-      applicationPath: string,
-      mdlsName?: string,
-    ): IToggleApplicaitonAction {
+  /**
+   * Returns a json of the current action. 
+   * url and invoke properties of this class depend on this
+   */
+  public get json(): any {
+    const mdlsValue: string = getMdlsName(this.applicationPath) || this.mdlsName;
       
-      return new IToggleApplicaitonAction(
-        applicationPath,
-        mdlsName,
-      );
-    },
-    // name of the action, used for easier loading of actions
-    name: 'toggleApplication',
-  };
-};
+    if (!mdlsValue) {
+      console.error(`Sorry, you'll have to manually provide mdls name of the app for this action to work`);
+      return;
+    }
+
+    return {
+      "BTTPredefinedActionType" : Types.ACTION.TOGGLE_APPLICATION,
+      "BTTAppToShowOrHide": mdlsValue,
+      "BTTEnabled2" : 1,
+      "BTTEnabled" : 1,
+    };
+  }
+}

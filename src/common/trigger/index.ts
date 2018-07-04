@@ -4,7 +4,7 @@
  */
 
 import * as CommonUtils from '../../common/util';
-import * as Types from '../../../types';
+import * as Types from '../../../src/types';
 
 /* static interface declaration */
 export interface TriggerStatic<T> extends Types.Type<Trigger<T>> {

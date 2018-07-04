@@ -6,20 +6,24 @@ import * as Url from 'url';
  * Every action implementation derives from this class
  */
 export default abstract class Action {
-  protected instanceConfig: Types.IBTTConfig;
+  protected config: Types.IBTTConfig;
+  protected initialized: boolean = false;
+  public static alias: string = '';
   
   /**
    * A constructor for abstract Action class
    * @param args 
    */
-  public constructor(...args: any[]) {}
+  public constructor(config: Types.IBTTConfig) {
+    this.config = config;
+  }
   
   /**
    * Returns the url of the given action, that this library generates
    */
   public get url(): string {
     let url: string = Url.resolve(
-      CommonUtils.getUrl(this.instanceConfig),
+      CommonUtils.getUrl(this.config),
       'trigger_action/',
     );
 
@@ -42,16 +46,37 @@ export default abstract class Action {
     return CommonUtils.makeAction(
       'trigger_action', 
       { json: JSON.stringify(this.json) },
-      this.instanceConfig
+      this.config
     );
   }
 
+  /**
+   * A function that'll be called by the end user
+   * @param args 
+   */
+  public init(...args: any[]): Types.IActionReturnValue {
+    return {
+      url: '',
+      json: {},
+      invoke: async () => {},
+    };
+  }
+
+  /**
+   * Returns a partial of the class instance.
+   * @param instance 
+   */
+  protected partial(instance: Action): Types.IActionReturnValue {
+    const partial: any = instance;
+    return partial;
+  }
+  
   /**
    * Returns parameters needed for url generation
    */
   protected get params(): string {
     return CommonUtils.params({
       json: JSON.stringify(this.json),
-    }, this.instanceConfig.sharedKey);
+    }, this.config.sharedKey);
   }
 }

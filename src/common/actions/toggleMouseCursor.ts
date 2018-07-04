@@ -1,32 +1,30 @@
 import * as Types from '../../../types';
 import Action from '../../action';
 
-export default function (
-  instanceConfig: Types.IBTTConfig,
-) {
-  class IToggleMouseCursor extends Action {
-    // required for injecting current btt instance config
-    protected instanceConfig = instanceConfig;
+/**
+ * This action is responsible for toggling cursor visibility
+ */
+export default class AToggleMouseCursor extends Action { 
+  // reference name
+  public static alias: string = 'toggleMouseCursor';
 
-    /**
-     * Returns a json of the current action. 
-     * url and invoke properties of this class depend on this
-     */
-    public get json(): any {
-      return {
-        "BTTPredefinedActionType" : Types.ACTION.TOGGLE_MOUSE_CURSOR,
-        "BTTEnabled2" : 1,
-        "BTTEnabled" : 1,
-      };
-    }
+  /**
+   * Function that will be called once user requests this action
+   * @param actionConfig 
+   */
+  public init(): Types.IActionReturnValue {
+    return this.partial(this);
   }
 
-  return {
-    // this function will be called by user
-    init(): IToggleMouseCursor {
-      return new IToggleMouseCursor();
-    },
-    // name of the action, used for easier loading of actions
-    name: 'toggleMouseCursor',
-  };
-};
+  /**
+   * Returns a json of the current action. 
+   * url and invoke properties of this class depend on this
+   */
+  public get json(): any {
+    return {
+      "BTTPredefinedActionType" : Types.ACTION.TOGGLE_MOUSE_CURSOR,
+      "BTTEnabled2" : 1,
+      "BTTEnabled" : 1,
+    };
+  }
+}

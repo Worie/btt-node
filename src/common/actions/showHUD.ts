@@ -1,56 +1,55 @@
 import * as Types from '../../../types';
 import Action from '../../action';
 
-export default function (
-  instanceConfig: Types.IBTTConfig,
-) {
-  class IShowHUDAction extends Action {
-    // required for injecting current btt instance config
-    protected instanceConfig = instanceConfig;
+/**
+ * This action is responsible for disabling / enabling BTT. Does not affect this library or webserver
+ */
+export default class AShowHUD extends Action { 
+  private actionConfig: Types.IShowHUDConfig;
 
-    private config: Types.IShowHUDConfig;
+  // reference name
+  public static alias: string = 'showHUD';
 
-    public constructor(config: Types.IShowHUDConfig) {
-      super(config);
-      
-      this.config = config;
+  /**
+   * Function that will be called once user requests this action
+   * @param actionConfig 
+   */
+  public init(
+    config: Types.IShowHUDConfig,
+  ): Types.IActionReturnValue {
+    if (!this.initialized) {
+      this.actionConfig = config;
+      this.initialized = true;
     }
-
-    /**
-     * Returns a json of the current action. 
-     * url and invoke properties of this class depend on this
-     */
-    public get json(): any {
-      const { title, details, duration, background, direction } = this.config;
-      
-      // limit the duration to 10 seconds, and ignore negative values
-      const reasonableDuration = Math.abs(Math.max(duration, 10));
     
-      const BTTAdditionalConfig: any = {
-        "BTTActionHUDDetail": details,
-        "BTTActionHUDTitle": title,
-        "BTTActionHUDDuration": reasonableDuration || 0.8,
-        "BTTActionHUDBackground": background, 
-        "BTTActionHUDSlideDirection": direction,
-      };
-      
-      const result: any = {
-        "BTTPredefinedActionType" : Types.ACTION.SHOW_HUD,
-        "BTTHUDActionConfiguration" : JSON.stringify(BTTAdditionalConfig),
-        "BTTEnabled2" : 1,
-        "BTTEnabled" : 1,
-      };
-    
-      return result;
-    }
+    return this.partial(this);
   }
 
-  return {
-    // this function will be called by user
-    init(config: Types.IShowHUDConfig): IShowHUDAction {
-      return new IShowHUDAction(config);
-    },
-    // name of the action, used for easier loading of actions
-    name: 'showHUD',
-  };
-};
+  /**
+   * Returns a json of the current action. 
+   * url and invoke properties of this class depend on this
+   */
+  public get json(): any {
+    const { title, details, duration, background, direction } = this.actionConfig;
+      
+    // limit the duration to 10 seconds, and ignore negative values
+    const reasonableDuration = Math.abs(Math.min(duration, 10));
+  
+    const BTTAdditionalConfig: any = {
+      "BTTActionHUDDetail": details,
+      "BTTActionHUDTitle": title,
+      "BTTActionHUDDuration": reasonableDuration || 0.8,
+      "BTTActionHUDBackground": background, 
+      "BTTActionHUDSlideDirection": direction,
+    };
+    
+    const result: any = {
+      "BTTPredefinedActionType" : Types.ACTION.SHOW_HUD,
+      "BTTHUDActionConfiguration" : JSON.stringify(BTTAdditionalConfig),
+      "BTTEnabled2" : 1,
+      "BTTEnabled" : 1,
+    };
+  
+    return result;
+  }
+}

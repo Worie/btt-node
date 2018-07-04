@@ -1,32 +1,30 @@
 import * as Types from '../../../types';
 import Action from '../../action';
 
-export default function (
-  instanceConfig: Types.IBTTConfig,
-) {
-  class IToggleDnDAction extends Action {
-    // required for injecting current btt instance config
-    protected instanceConfig = instanceConfig;
+/**
+ * This action is responsible for toggling do not disturb mode
+ */
+export default class AToggleDnD extends Action { 
+  // reference name
+  public static alias: string = 'toggleDnD';
 
-    /**
-     * Returns a json of the current action. 
-     * url and invoke properties of this class depend on this
-     */
-    public get json(): any {
-      return {
-        "BTTPredefinedActionType" : Types.ACTION.TOGGLE_DND,
-        "BTTEnabled2" : 1,
-        "BTTEnabled" : 1,
-      };
-    }
+  /**
+   * Function that will be called once user requests this action
+   * @param actionConfig 
+   */
+  public init(): Types.IActionReturnValue {
+    return this.partial(this);
   }
 
-  return {
-    // this function will be called by user
-    init(): IToggleDnDAction {
-      return new IToggleDnDAction();
-    },
-    // name of the action, used for easier loading of actions
-    name: 'toggleDnD',
-  };
-};
+  /**
+   * Returns a json of the current action. 
+   * url and invoke properties of this class depend on this
+   */
+  public get json(): any {
+    return {
+      "BTTPredefinedActionType" : Types.ACTION.TOGGLE_DND,
+      "BTTEnabled2" : 1,
+      "BTTEnabled" : 1,
+    };
+  }
+}

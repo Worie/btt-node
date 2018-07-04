@@ -137,14 +137,6 @@ export class BTT {
   }
 
   /**
-   * Sets the volume of the system
-   * @param volume 
-   */
-  // public async setVolume(volume: string) {
-  //   return this.actions.setVolume(volume);
-  // }
-
-  /**
    * Toggles do not disturb mode
    */
   public toggleDnD() {
@@ -263,14 +255,6 @@ export class BTT {
   public toggleMouseSize() {
     return this.actions.toggleMouseSize();
   }
-
-  /**
-   * Manages the keyboard bright
-   * @param mode 'up' | 'down'
-   */
-  // public async keyBrightness(mode: string) {
-  //   return this.actions.keyBrightness(mode);
-  // }
 
   /**
    * Toggles the system dark mode 

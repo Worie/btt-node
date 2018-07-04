@@ -1,41 +1,39 @@
 import * as Types from '../../../types';
 import Action from '../../action';
 
-export default function (
-  instanceConfig: Types.IBTTConfig,
-) {
-  class IDelayNextActionAction extends Action {
-    // required for injecting current btt instance config
-    protected instanceConfig = instanceConfig;
+/**
+ * This action is responsible for sending a haptic feedback to built in trackpad
+ */
+export default class ADelayNextAction extends Action { 
+  // stores action config
+  private timeout: number;
 
-    private time: number;
+  // reference name
+  public static alias: string = 'delayNextAction';
 
-    public constructor(time: number) {
-      super(time);
-      
-      this.time = time;
+  /**
+   * Function that will be called once user requests this action
+   * @param actionConfig 
+   */
+  public init(timeout: number): Types.IActionReturnValue {
+    if (!this.initialized) {
+      this.timeout = timeout;
+      this.initialized = true;
     }
 
-    /**
-     * Returns a json of the current action. 
-     * url and invoke properties of this class depend on this
-     */
-    public get json(): any {
-      return {
-        "BTTPredefinedActionType" : Types.ACTION.DELAY_NEXT_ACTION,
-        "BTTDelayNextActionBy" : String(this.time / 1000),
-        "BTTEnabled2" : 1,
-        "BTTEnabled" : 1,
-      };
-    }
+    return this.partial(this);
   }
 
-  return {
-    // this function will be called by user
-    init(time: number): IDelayNextActionAction {
-      return new IDelayNextActionAction(time);
-    },
-    // name of the action, used for easier loading of actions
-    name: 'delayNextAction',
-  };
-};
+  /**
+   * Returns a json of the current action. 
+   * url and invoke properties of this class depend on this
+   */
+  public get json(): any {
+    return {
+      "BTTPredefinedActionType" : Types.ACTION.DELAY_NEXT_ACTION,
+      "BTTDelayNextActionBy" : String(this.timeout / 1000),
+      "BTTEnabled2" : 1,
+      "BTTEnabled" : 1,
+    };
+  }
+}

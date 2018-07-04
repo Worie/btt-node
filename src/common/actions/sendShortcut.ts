@@ -1,9 +1,8 @@
 import * as Types from '../../../types';
 import Action from '../../action';
-import { mapShortcutNotationToBTT } from '../../common/keys';
 import * as DetectNode from 'detect-node';
+import { mapShortcutNotationToBTT } from '../../common/keys';
 
-// hacky workaround, use proper DI
 let getMdlsName: any;
 
 if (DetectNode) {
@@ -12,72 +11,57 @@ if (DetectNode) {
   getMdlsName = (): null => undefined;
 }
 
-export default function (
-  instanceConfig: Types.IBTTConfig,
-) {
-  class IMuteAction extends Action {
-    // required for injecting current btt instance config
-    protected instanceConfig = instanceConfig;
+/**
+ * This action is responsible for disabling / enabling BTT. Does not affect this library or webserver
+ */
+export default class ASendShortcut extends Action { 
+  private shortcut: string;
+  private applicationPath: string;
+  private mdlsName: string;
 
-    private shortcut: string;
-    private applicationPath: string;
-    private mdlsName: string;
+  // reference name
+  public static alias: string = 'sendShortcut';
 
-    public constructor(
-      shortcut: string,
-      applicationPath: string,
-      mdlsName?: string
-    ) {
-      super(
-        shortcut,
-        applicationPath,
-        mdlsName,
-      );
-
-      this.shortcut = shortcut;
+  /**
+   * Function that will be called once user requests this action
+   * @param actionConfig 
+   */
+  public init(
+    shortcut: string,
+    applicationPath: string,
+    mdlsName?: string
+  ): Types.IActionReturnValue {
+    if (!this.initialized) {
       this.applicationPath = applicationPath;
       this.mdlsName = mdlsName;
+      this.shortcut = shortcut;
+      this.initialized = true;
     }
-
-    /**
-     * Returns a json of the current action. 
-     * url and invoke properties of this class depend on this
-     */
-    public get json(): any {
-      const shortcutToSend: string = mapShortcutNotationToBTT(this.shortcut);
-
-      const mdlsValue = getMdlsName(this.applicationPath) || this.mdlsName;
-
-      if (!mdlsValue) {
-        console.error(`Sorry, you'll have to manually provide mdls name of the app for this action to work`);
-        return;
-      }
-
-      return {
-        "BTTPredefinedActionType" : Types.ACTION.SEND_SHORTCUT_TO_APP,
-        "BTTShortcutApp" : this.applicationPath,
-        "BTTShortcutToSend" : shortcutToSend,
-        "BTTShortcutAppUnderCursor": mdlsValue.replace('/', '\\/'),
-        "BTTEnabled2" : 1,
-        "BTTEnabled" : 1,
-      };
-    }
+    
+    return this.partial(this);
   }
 
-  return {
-    // this function will be called by user
-    init(
-      shortcut: string,
-      applicationPath: string,
-      mdlsName?: string
-    ): IMuteAction {
-      return new IMuteAction(
-        shortcut,
-        applicationPath,
-        mdlsName,
-      );
-    },
-    // name of the action, used for easier loading of actions
-    name: 'sendShortcut',
-  };
-};
+  /**
+   * Returns a json of the current action. 
+   * url and invoke properties of this class depend on this
+   */
+  public get json(): any {
+    const shortcutToSend: string = mapShortcutNotationToBTT(this.shortcut);
+
+    const mdlsValue = getMdlsName(this.applicationPath) || this.mdlsName;
+
+    if (!mdlsValue) {
+      console.error(`Sorry, you'll have to manually provide mdls name of the app for this action to work`);
+      return;
+    }
+
+    return {
+      "BTTPredefinedActionType" : Types.ACTION.SEND_SHORTCUT_TO_APP,
+      "BTTShortcutApp" : this.applicationPath,
+      "BTTShortcutToSend" : shortcutToSend,
+      "BTTShortcutAppUnderCursor": mdlsValue.replace('/', '\\/'),
+      "BTTEnabled2" : 1,
+      "BTTEnabled" : 1,
+    };
+  }
+}

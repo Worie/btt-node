@@ -1,40 +1,39 @@
 import * as Types from '../../../types';
 import Action from '../../action';
 
-export default function (
-  instanceConfig: Types.IBTTConfig,
-) {
-  class IHapticFeedbackAction extends Action {
-    // required for injecting current btt instance config
-    protected instanceConfig = instanceConfig;
+/**
+ * This action is responsible for sending a haptic feedback to built in trackpad
+ */
+export default class AHapticFeedback extends Action { 
+  // stores action config
+  private hapticMode: number;
 
-    private hapticMode: number;
+  // reference name
+  public static alias: string = 'hapticFeedback';
 
-    public constructor(hapticMode: number) {
-      super(hapticMode);
-
+  /**
+   * Function that will be called once user requests this action
+   * @param actionConfig 
+   */
+  public init(hapticMode: number): Types.IActionReturnValue {
+    if (!this.initialized) {
       this.hapticMode = hapticMode;
+      this.initialized = true;
     }
-    /**
-     * Returns a json of the current action. 
-     * url and invoke properties of this class depend on this
-     */
-    public get json(): any {
-      return {
-        "BTTPredefinedActionType" : Types.ACTION.TRIGGER_HAPTIC_ENGINE,
-        "BTTHapticFeedbackAction" : this.hapticMode,
-        "BTTEnabled2" : 1,
-        "BTTEnabled" : 1,
-      };
-    }
+
+    return this.partial(this);
   }
 
-  return {
-    // this function will be called by user
-    init(hapticMode: number): IHapticFeedbackAction {
-      return new IHapticFeedbackAction(hapticMode);
-    },
-    // name of the action, used for easier loading of actions
-    name: 'hapticFeedback',
-  };
-};
+  /**
+   * Returns a json of the current action. 
+   * url and invoke properties of this class depend on this
+   */
+  public get json(): any {
+    return {
+      "BTTPredefinedActionType" : Types.ACTION.TRIGGER_HAPTIC_ENGINE,
+      "BTTHapticFeedbackAction" : this.hapticMode,
+      "BTTEnabled2" : 1,
+      "BTTEnabled" : 1,
+    };
+  }
+}
