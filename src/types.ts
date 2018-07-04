@@ -248,11 +248,11 @@ export interface IRect {
   y: number;
 }
 
-// export interface IActionReturnValue {
-//   invoke(): Promise<any>;
-//   url: string;
-//   json: any;
-// }
+export interface IActionReturnValue {
+  invoke(): Promise<any>;
+  url: string;
+  json: any;
+}
 
 // export interface IMuteAction extends IAction {
 //   (): IActionReturnValue;
@@ -275,10 +275,8 @@ export interface IActionInitializer {
   (config: IBTTConfig): IAction;
 }
 
-
-
 export interface IActionFunction {
-  (...args: any[]): Action;
+  (...args: any[]): IActionReturnValue;
 }
 
 export interface IEventCallback { 

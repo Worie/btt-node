@@ -1,4 +1,5 @@
 const path = require('path');
+const TypedocWebpackPlugin = require('typedoc-webpack-plugin');
 
 module.exports = {
   entry: './src/index.ts',
@@ -23,5 +24,22 @@ module.exports = {
     filename: 'index.js',
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'commonjs',
-  }
+  },
+  plugins: [
+    new TypedocWebpackPlugin({
+      ignoreCompilerErrors: true,
+      out: './docs',
+      module: 'commonjs',
+      target: 'es5',
+      exclude: '**/node_modules/**/*.*',
+      experimentalDecorators: true,
+      excludeExternals: true,
+      excludePrivate: true,
+      includeDeclarations: true,
+      excludeProtected: true,
+      hideGenerator: true,
+      name: 'Manage Better Touch Tool in JavaScript',
+      mode: 'file',
+    }, './src')
+  ]
 };

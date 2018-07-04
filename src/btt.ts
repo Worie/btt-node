@@ -1,5 +1,5 @@
-import * as Trigger from './common/trigger/index';
-import * as Widget from './common/widget/index';
+// import * as Trigger from './common/trigger/index';
+// import * as Widget from './common/widget/index';
 import * as State from './common/state';
 import * as Actions from './common/actions/index';
 import * as Types from '../types';
@@ -14,10 +14,10 @@ export class BTT {
   private actions: Record<string, Types.IActionFunction>;
 
   // stores a Trigger factory
-  public Trigger: Trigger.TriggerStatic<Types.ITriggerConfig>;
+  // public Trigger: Trigger.TriggerStatic<Types.ITriggerConfig>;
   
   // stores a Widget factory
-  public Widget: Widget.WidgetStatic<Types.IWidgetConfig>;
+  // public Widget: Widget.WidgetStatic<Types.IWidgetConfig>;
 
   // state, manages BTT variables
   public state: Types.IState;
@@ -38,10 +38,10 @@ export class BTT {
     this.actions = Actions.init(config);
 
     // initialize the Trigger factory
-    this.Trigger = Trigger.init(config);
+    // this.Trigger = Trigger.init(config);
     
     // initialize the Widget factory
-    this.Widget = Widget.init(config);
+    // this.Widget = Widget.init(config);
 
     // initialize the state (variable management)
     this.state = State.init(config);
