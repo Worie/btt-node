@@ -57,16 +57,11 @@ export class Btt {
   constructor(config: Types.IBTTConfig) {
     this.config = config;
     
-    // get all the actions
-    // this.actions = Actions.init(config);
-    
     // initialize the Widget factory
     this.Widget = new FWidget(config);
 
     // initialize new trigger
     this.Trigger = new FTrigger(config);
-
-    // this.action = new FAction(config);
 
     // initialize the state (variable management)
     this.state = State.init(config);
