@@ -1,5 +1,3 @@
-import Action from './src/action';
-
 export interface IBTTConfig {
   domain: string;
   port: number;
@@ -201,9 +199,6 @@ export enum MOUSE_TRIGGERS {
   R_SHIFT = 131076,
 }
 
-export interface Type<T> {
-  new (...args: any[]): T;
-}
 
 export interface IShowHUDConfig {
   title ? : string;
@@ -243,53 +238,9 @@ export interface IFloatingHTMLConfig {
   showButtons ? : boolean;
 }
 
-export interface IRect {
-  x: number;
-  y: number;
-}
-
-// export interface IActionReturnValue {
-//   invoke(): Promise<any>;
-//   url: string;
-//   json: any;
-// }
-
-// export interface IMuteAction extends IAction {
-//   (): IActionReturnValue;
-// } 
-
-
-
-/**
- * used for Actions easier callee :( internal
- */
-export interface IAction {
-  init: IActionFunction;
-  name: string;
-}
-
-/**
- * Used for initializing, getting the btt server dependecies 
- */
-export interface IActionInitializer {
-  (config: IBTTConfig): IAction;
-}
-
-
-
-export interface IActionFunction {
-  (...args: any[]): Partial<Action>;
-}
-
 export interface IEventCallback { 
   actions: ActionJSON[],
   comment: string;
 }
 
 export type ActionJSON = Record<string, any>;
-
-export interface IActionReturnValue {
-  url: string;
-  json: Record<string, string>;
-  invoke: () => Promise<any>;
-}

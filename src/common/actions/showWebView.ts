@@ -1,38 +1,22 @@
 import * as Types from '../../../types';
-import Action from '../../action';
+import { Action } from '../../common/action';
 import * as uuidv4 from 'uuid/v4';
 
 /**
  * This action is responsible for disabling / enabling BTT. Does not affect this library or webserver
  */
-export default class AShowWebView extends Action { 
-  private actionConfig: Types.IShowWebViewConfig;
-
+export default class AShowWebView extends Action {
   // reference name
   public static alias: string = 'showWebView';
-
-  /**
-   * Function that will be called once user requests this action
-   * @param actionConfig 
-   */
-  public init(
-    actionConfig: Types.IShowWebViewConfig
-  ): Types.IActionReturnValue {
-    if (!this.initialized) {
-      this.actionConfig = actionConfig;
-      this.initialized = true;
-    }
-    
-    return this.partial(this);
-  }
 
   /**
    * Returns a json of the current action. 
    * url and invoke properties of this class depend on this
    */
   public get json(): any {
-    const floatingHTMLConfig: Types.IFloatingHTMLConfig = this.actionConfig.config || {};
-    const { width, height, x, y, name, url, html } = this.actionConfig;
+    const actionConfig: Types.IShowWebViewConfig = this.arguments[0];
+    const floatingHTMLConfig: Types.IFloatingHTMLConfig = actionConfig.config || {};
+    const { width, height, x, y, name, url, html } = actionConfig;
 
     const BTTActionFloatingHTMLConfig: any = {
       "BTTCloseOnOutsideClick": floatingHTMLConfig.closeOnClickOut || true,

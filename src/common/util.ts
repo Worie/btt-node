@@ -3,7 +3,6 @@ import * as Types from '../../types';
 import * as CamelCase from 'camelcase';
 import * as uuidv5 from 'uuid/v5';
 
-
 let fetch: any;
 let deleteTriggerFn: any; // could be "method" = 'webserver' | 'url scheme'
 
@@ -61,13 +60,6 @@ export function params(data: Record<string, string>, sharedKey?: string): string
     return `${params}&shared_key=${sharedKey}`;
   }
   return params;
-}
-
-/**
- * Decorator for classes 
- */
-export function staticImplements<T>() {
- return (constructor: T) => {}
 }
 
 /**

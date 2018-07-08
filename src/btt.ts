@@ -1,26 +1,49 @@
-// import * as Trigger from './common/trigger/index';
-// import * as Widget from './common/widget/index';
+import { FTrigger } from './common/trigger';
+import { FWidget } from './common/widget';
 import * as State from './common/state';
-import * as Actions from './common/actions/index';
 import * as Types from '../types';
 import * as CommonUtils from './common/util';
-import Action from './action';
+import { Action } from './common/action';
+
+import AHapticFeedback from './common/actions/hapticFeedback';
+import ASendText from './common/actions/sendText';
+import ADelayNextAction from './common/actions/delayNextAction';
+import AToggleBTT from './common/actions/toggle';
+import AStartSiri from './common/actions/startSiri';
+import ALaunchApplication from './common/actions/launchApplication';
+import AToggleApplication from './common/actions/toggleApplication';
+import AMute from './common/actions/mute';
+import ATriggerShortcut from './common/actions/triggerShortcut';
+import AToggleNightShift from './common/actions/toggleNightShift';
+import AToggleDnD from './common/actions/toggleDnD';
+import AToggleMouseSize from './common/actions/toggleMouseSize';
+import AToggleMouseSpeed from './common/actions/toggleMouseSpeed';
+import AToggleMouseCursor from './common/actions/toggleMouseCursor';
+import AToggleDarkMode from './common/actions/toggleDarkMode';
+import ALockScreen from './common/actions/lockScreen';
+import ALogout from './common/actions/logout';
+import ASleepDisplay from './common/actions/sleepDisplay';
+import ASleepComputer from './common/actions/sleepComputer';
+import ARestartBTT from './common/actions/restart';
+import AQuitBTT from './common/actions/quit';
+import ASendShortcut from './common/actions/sendShortcut';
+import AShowHUD from './common/actions/showHUD';
+import AMoveMouse from './common/actions/moveMouse';
+import AShowWebView from './common/actions/showWebView';
+
 
 /**
  * Class used to manage the BTT webserver 
  */
-export class BTT {
-  // holds various actions definitions
-  private actions: Record<string, Types.IActionFunction>;
-
-  // stores a Trigger factory
-  // public Trigger: Trigger.TriggerStatic<Types.ITriggerConfig>;
-  
-  // stores a Widget factory
-  // public Widget: Widget.WidgetStatic<Types.IWidgetConfig>;
-
+export class Btt {
   // state, manages BTT variables
   public state: Types.IState;
+
+  // stores Trigger factory
+  public Trigger: FTrigger;
+
+  // stores Widget factory
+  public Widget: FWidget;
 
   // stores the config from the constructor
   private config: Types.IBTTConfig;
@@ -35,13 +58,15 @@ export class BTT {
     this.config = config;
     
     // get all the actions
-    this.actions = Actions.init(config);
-
-    // initialize the Trigger factory
-    // this.Trigger = Trigger.init(config);
+    // this.actions = Actions.init(config);
     
     // initialize the Widget factory
-    // this.Widget = Widget.init(config);
+    this.Widget = new FWidget(config);
+
+    // initialize new trigger
+    this.Trigger = new FTrigger(config);
+
+    // this.action = new FAction(config);
 
     // initialize the state (variable management)
     this.state = State.init(config);
@@ -74,7 +99,7 @@ export class BTT {
     // set up ids
     const listenerUuid: string = CommonUtils.generateUuidForString(
       `${eventType}:${String(cb)}`,
-      BTT.namespace
+      Btt.namespace
     );
 
     listenerJSON['BTTUUID'] = listenerUuid;
@@ -102,7 +127,7 @@ export class BTT {
     // get the id from event type, callback and everything
     const triggerID: string = CommonUtils.generateUuidForString(
       `${eventType}:${String(cb)}`,
-      BTT.namespace
+      Btt.namespace
     );
   
     CommonUtils.deleteTrigger(triggerID);
@@ -129,7 +154,8 @@ export class BTT {
     applicationPath: string,
     mdlsName?: string,
   ) {
-    return this.actions.sendShortcut(
+    return new ASendShortcut(
+      this.config,
       shortcut,
       applicationPath,
       mdlsName,
@@ -140,14 +166,14 @@ export class BTT {
    * Toggles do not disturb mode
    */
   public toggleDnD() {
-    return this.actions.toggleDnD();
+    return new AToggleDnD(this.config);
   }
 
   /**
    * Toggles night shift
    */
   public toggleNightShift() {
-    return this.actions.toggleNightShift();
+    return new AToggleNightShift(this.config);
   }
 
   /**
@@ -155,21 +181,21 @@ export class BTT {
    * @param shortcut key identifiers separated by space
    */
   public triggerShortcut(shortcut: string) {
-    return this.actions.triggerShortcut(shortcut);
+    return new ATriggerShortcut(this.config, shortcut);
   }
 
   /**
    * Shows HUD with given config
    */
   public showHUD(config: Types.IShowHUDConfig) {
-    return this.actions.showHUD(config);
+    return new AShowHUD(this.config, config);
   }
 
   /**
    * Sends / Types / Inserts / Pastes custom text
    */
   public sendText(config: Types.ISendTextConfig) {
-    return this.actions.sendText(config);
+    return new ASendText(this.config, config);
   }
 
   /**
@@ -180,42 +206,42 @@ export class BTT {
    * @param hapticMode a number representing each mode.
    */
   public hapticFeedback(hapticMode: number) {
-    return this.actions.hapticFeedback(hapticMode);
+    return new AHapticFeedback(this.config, hapticMode);
   }
 
   /**
    * Open an application on the given path
    */
   public launchApplication(applicationPath: string) {
-    return this.actions.launchApplication(applicationPath);
+    return new ALaunchApplication(this.config, applicationPath);
   }
 
   /**
    * Toggles the visibility of given application
    */
   public toggleApplication(applicationPath: string) {
-    return this.actions.toggleApplication(applicationPath);
+    return new AToggleApplication(this.config, applicationPath);
   }
 
   /**
    * Toggles the mute state in the system
    */
   public mute() {
-    return this.actions.mute();
+    return new AMute(this.config);
   }
 
   /**
    * Starts Siri
    */
   public startSiri() {
-    return this.actions.startSiri();
+    return new AStartSiri(this.config);
   }
 
   /**
    * Toggles the BetterTouchTool gesture recognition
    */
   public toggle() {
-    return this.actions.toggle();
+    return new AToggleBTT(this.config);
   }
 
   /**
@@ -225,83 +251,90 @@ export class BTT {
    * @param timeout - time in miliseconds during any action execution will be delayed
    */
   public delayNextAction(timeout: number) {
-    return this.actions.delayNextAction(timeout);
+    return new ADelayNextAction(this.config, timeout);
   }
 
   /**
    * Moves mouse to specified position
    */
   public moveMouse(config: Types.IMoveMouseConfig) {
-    return this.actions.moveMouse(config);
+    return new AMoveMouse(this.config, config);
   }
 
   /**
    * Toggles the mouse speed between a regular and speeded up one
    */
   public toggleMouseSpeed() {
-    return this.actions.toggleMouseSpeed();
+    return new AToggleMouseSpeed(this.config);
   }
 
   /**
    * Toggles mouse cursor visibility
    */
   public toggleMouseCursor() {
-    return this.actions.toggleMouseCursor();
+    return new AToggleMouseCursor(this.config);
   }
 
   /**
    * Toggles between the big and regular mouse cursor size
    */
   public toggleMouseSize() {
-    return this.actions.toggleMouseSize();
+    return new AToggleMouseSize(this.config);
   }
 
   /**
    * Toggles the system dark mode 
    */
   public toggleDarkMode() {
-    return this.actions.toggleDarkMode();
+    return new AToggleDarkMode(this.config);
   }
 
   /**
    * Opens a web view
    */
   public showWebView(config: Types.IShowWebViewConfig) {
-    return this.actions.showWebView(config);
+    return new AShowWebView(this.config, config);
   }
 
   /**
    * Locks the screen
    */
   public lockScreen() {
-    return this.actions.lockScreen();
+    return new ALockScreen(this.config);
   }
 
   /**
    * Logouts current user
    */
   public logout() {
-    return this.actions.logout();
+    return new ALogout(this.config);
   }
 
   /**
    * Sleeps computer display
    */
   public sleepDisplay() {
-    return this.actions.sleepDisplay();
+    return new ASleepDisplay(this.config);
   }
 
   /**
    * Sleeps computer
    */
   public sleepComputer() {
-    return this.actions.sleepComputer();
+    return new ASleepComputer(this.config);
   }
 
   /**
    * Restarts BetterTouchTool
    */
   public restart() {
-    return this.actions.restart();
+    return new ARestartBTT(this.config);
+  }
+
+  /**
+   * Quits BetterTouchTool
+   */
+  public quit() {
+    return new AQuitBTT(this.config);
   }
 }

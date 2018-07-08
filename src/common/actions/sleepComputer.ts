@@ -1,5 +1,5 @@
 import * as Types from '../../../types';
-import Action from '../../action';
+import { Action } from '../../common/action';
 
 /**
  * This action is responsible for disabling / enabling BTT. Does not affect this library or webserver
@@ -7,14 +7,6 @@ import Action from '../../action';
 export default class ASleepComputer extends Action { 
   // reference name
   public static alias: string = 'sleepComputer';
-
-  /**
-   * Function that will be called once user requests this action
-   * @param actionConfig 
-   */
-  public init(): Types.IActionReturnValue {
-    return this.partial(this);
-  }
 
   /**
    * Returns a json of the current action. 

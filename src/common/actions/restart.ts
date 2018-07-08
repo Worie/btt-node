@@ -1,5 +1,5 @@
 import * as Types from '../../../types';
-import Action from '../../action';
+import { Action } from '../../common/action';
 
 /**
  * This action is responsible for restarting BTT
@@ -7,14 +7,6 @@ import Action from '../../action';
 export default class ARestartBTT extends Action { 
   // reference name
   public static alias: string = 'restart';
-
-  /**
-   * Function that will be called once user requests this action
-   * @param actionConfig 
-   */
-  public init(): Types.IActionReturnValue {
-    return this.partial(this);
-  }
 
   /**
    * Returns a json of the current action. 

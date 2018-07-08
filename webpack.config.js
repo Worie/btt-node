@@ -28,7 +28,7 @@ module.exports = {
   plugins: [
     new TypedocWebpackPlugin({
       ignoreCompilerErrors: true,
-      out: './docs',
+      out: './../docs',
       module: 'commonjs',
       target: 'es5',
       exclude: '**/node_modules/**/*.*',
@@ -38,7 +38,7 @@ module.exports = {
       includeDeclarations: true,
       excludeProtected: true,
       hideGenerator: true,
-      name: 'Manage Better Touch Tool in JavaScript',
+      name: 'btt',
       mode: 'file',
     }, './src')
   ]

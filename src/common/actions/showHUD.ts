@@ -1,36 +1,21 @@
 import * as Types from '../../../types';
-import Action from '../../action';
+import { Action } from '../../common/action';
 
 /**
  * This action is responsible for disabling / enabling BTT. Does not affect this library or webserver
  */
 export default class AShowHUD extends Action { 
-  private actionConfig: Types.IShowHUDConfig;
-
   // reference name
   public static alias: string = 'showHUD';
-
-  /**
-   * Function that will be called once user requests this action
-   * @param actionConfig 
-   */
-  public init(
-    config: Types.IShowHUDConfig,
-  ): Types.IActionReturnValue {
-    if (!this.initialized) {
-      this.actionConfig = config;
-      this.initialized = true;
-    }
-    
-    return this.partial(this);
-  }
 
   /**
    * Returns a json of the current action. 
    * url and invoke properties of this class depend on this
    */
   public get json(): any {
-    const { title, details, duration, background, direction } = this.actionConfig;
+    const config: Types.IShowHUDConfig = this.arguments[0];
+    
+    const { title, details, duration, background, direction } = config;
       
     // limit the duration to 10 seconds, and ignore negative values
     const reasonableDuration = Math.abs(Math.min(duration, 10));

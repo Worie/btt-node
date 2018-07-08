@@ -1,21 +1,26 @@
-import * as Types from "../types";
-import * as CommonUtils from './common/util';
+import * as Types from "../../types";
+import * as CommonUtils from '../common/util';
 import * as Url from 'url';
 
 /**
  * Every action implementation derives from this class
  */
-export default abstract class Action {
+export abstract class Action {
   protected config: Types.IBTTConfig;
-  protected initialized: boolean = false;
+  protected arguments: any[] = [];
+  
   public static alias: string = '';
   
   /**
    * A constructor for abstract Action class
    * @param args 
    */
-  public constructor(config: Types.IBTTConfig) {
+  public constructor(
+    config: Types.IBTTConfig,
+    ...args: any[]
+  ) {
     this.config = config;
+    this.arguments = args;
   }
   
   /**
@@ -48,27 +53,6 @@ export default abstract class Action {
       { json: JSON.stringify(this.json) },
       this.config
     );
-  }
-
-  /**
-   * A function that'll be called by the end user
-   * @param args 
-   */
-  public init(...args: any[]): Types.IActionReturnValue {
-    return {
-      url: '',
-      json: {},
-      invoke: async () => {},
-    };
-  }
-
-  /**
-   * Returns a partial of the class instance.
-   * @param instance 
-   */
-  protected partial(instance: Action): Types.IActionReturnValue {
-    const partial: any = instance;
-    return partial;
   }
   
   /**

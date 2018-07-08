@@ -1,5 +1,5 @@
 import * as Types from '../../../types';
-import Action from '../../action';
+import { Action } from '../../common/action';
 import * as DetectNode from 'detect-node';
 import { mapShortcutNotationToBTT } from '../../common/keys';
 
@@ -15,40 +15,21 @@ if (DetectNode) {
  * This action is responsible for disabling / enabling BTT. Does not affect this library or webserver
  */
 export default class ASendShortcut extends Action { 
-  private shortcut: string;
-  private applicationPath: string;
-  private mdlsName: string;
-
   // reference name
   public static alias: string = 'sendShortcut';
-
-  /**
-   * Function that will be called once user requests this action
-   * @param actionConfig 
-   */
-  public init(
-    shortcut: string,
-    applicationPath: string,
-    mdlsName?: string
-  ): Types.IActionReturnValue {
-    if (!this.initialized) {
-      this.applicationPath = applicationPath;
-      this.mdlsName = mdlsName;
-      this.shortcut = shortcut;
-      this.initialized = true;
-    }
-    
-    return this.partial(this);
-  }
 
   /**
    * Returns a json of the current action. 
    * url and invoke properties of this class depend on this
    */
   public get json(): any {
-    const shortcutToSend: string = mapShortcutNotationToBTT(this.shortcut);
+    const shortcut: string = this.arguments[0];
+    const applicationPath: string = this.arguments[1];
+    const mdlsName: string = this.arguments[2];
 
-    const mdlsValue = getMdlsName(this.applicationPath) || this.mdlsName;
+    const shortcutToSend: string = mapShortcutNotationToBTT(shortcut);
+
+    const mdlsValue = getMdlsName(applicationPath) || mdlsName;
 
     if (!mdlsValue) {
       console.error(`Sorry, you'll have to manually provide mdls name of the app for this action to work`);
@@ -57,7 +38,7 @@ export default class ASendShortcut extends Action {
 
     return {
       "BTTPredefinedActionType" : Types.ACTION.SEND_SHORTCUT_TO_APP,
-      "BTTShortcutApp" : this.applicationPath,
+      "BTTShortcutApp" : applicationPath,
       "BTTShortcutToSend" : shortcutToSend,
       "BTTShortcutAppUnderCursor": mdlsValue.replace('/', '\\/'),
       "BTTEnabled2" : 1,

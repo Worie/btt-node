@@ -1,4 +1,5 @@
 tsconfig.json
+docs
 src
 definitions.d.ts
 types.d.ts
