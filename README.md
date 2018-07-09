@@ -7,18 +7,41 @@
 
 Easier way to manage your BetterTouchTool in JavaScript.
 
+# Important notice!
+This package will be soon renamed to [btt](https://github.com/Worie/btt), making this repository archived and `btt-node` deprecated.
+
 ## About 
-This package is a handy wrapper over BetterTouchTool built in webserver API.
+This package is a handy wrapper over BetterTouchTool built in webserver API. (by [@Andreas Hegenberg](https://github.com/fifafu))
+
+This package will allow you to automate you MacOS-running machine using JavaScript. You'll be able to:
+
+* Toggle your do-not-disturb state
+* Toggle Night Shift
+* Sleep your computer after timeout
+* Create your own **touchbar widgets**
+* Feel a notification via **haptic engine**
+* Use the content of your clipboard to be opened in specific url or application
+* Create your own UIs "within system" using web view 
+* Trigger a system wide keyboard shortcut
+* Send a shortcut to specific application
+* Show / Hide / Open / Quit specific applcation
+* Move your mouse to specific position and click it
+* Lock / Unlock your MacOS machine
+* Integrate your flow with various APIs ...
+
+*and anything else that BetterTouchTool or JavaScript specification will allow you to do!*
+
+## Typings
 
 This package provides it's own type definitions and can be run both on browser and nodejs environment.
+
+## Requirements
+
+This package depends on application [BetterTouchTool](https://folivora.ai/) in at least version v2.0.0, you need to have it installed and running before going anywhere further.
 
 ## Installation
 
 `npm install btt-node`
-
-## Docs
-
-You can visit the docs [here](#).
 
 ## Example usage
 
@@ -56,10 +79,14 @@ btt.addEventListener('oneFingerForceClick', (ev) => {
 
 
 // you can also delete an event listener - trigger: 
-// btt.removeEventListener('oneFingerForceClick', callbackFuntion);
+btt.removeEventListener('oneFingerForceClick', callbackFuntion);
 ```
 
 For more advanced examples you can visit [the example section](#)
+
+## Docs
+
+You can visit the docs [here](#).
 
 ## Testing
 
