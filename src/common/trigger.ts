@@ -71,6 +71,9 @@ export class Trigger {
   }
 };
 
+/**
+ * Creates an instances of Trigger with specified config
+ */
 export class FTrigger {
   private config: Types.IBTTConfig;
 

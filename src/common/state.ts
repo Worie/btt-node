@@ -37,9 +37,6 @@ export function init(instanceConfig: Types.IBTTConfig) {
    * @param mode string or number. Providing this parameter makes this method more efficient
    */
   const get = async (key: string, mode?: 'string' | 'number'): Promise<number | string> => {
-    let stringValue;
-    let numberValue;
-
     const getStringVariable = async () => {
       const response = await CommonUtils.makeAction(`get_string_variable`, { variableName: key}, instanceConfig);
       return response.text();
