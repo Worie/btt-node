@@ -1,5 +1,9 @@
 ## btt-node [![npm version](https://badge.fury.io/js/btt-node.svg)](https://badge.fury.io/js/btt-node)
 
+
+[![NPM](https://nodei.co/npm/btt-node.png?downloads=true&downloadRank=true)](https://nodei.co/npm/btt-node/)
+[![NPM](https://nodei.co/npm-dl/btt-node.png?months=9&height=3)](https://nodei.co/npm/btt-node/)
+
 Easier way to manage your BetterTouchTool.
 
 It's based on BetterTouchTool built in webserver API.
