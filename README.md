@@ -3,7 +3,6 @@
 
 
 [![NPM](https://nodei.co/npm/btt-node.png?downloads=true&downloadRank=true)](https://nodei.co/npm/btt-node/)
-[![NPM](https://nodei.co/npm-dl/btt-node.png?months=9&height=3)](https://nodei.co/npm/btt-node/)
 
 Easier way to manage your BetterTouchTool in JavaScript.
 
@@ -38,6 +37,8 @@ This package provides it's own type definitions and can be run both on browser a
 ## Requirements
 
 This package depends on application [BetterTouchTool](https://folivora.ai/) in at least version v2.0.0, you need to have it installed and running before going anywhere further.
+
+Then, please enable and configure webserver in BetterTouchTool preferences. You're now ready to go!
 
 ## Installation
 
