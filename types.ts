@@ -2,7 +2,7 @@ export interface IBTTConfig {
   domain: string;
   port: number;
   protocol: string;
-  sharedKey: string;
+  sharedKey?: string;
   version?: string;
 }
 
