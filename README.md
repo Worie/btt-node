@@ -1,10 +1,14 @@
-## btt-node 
-[![npm version](https://badge.fury.io/js/btt-node.svg)](https://badge.fury.io/js/btt-node) [![Known Vulnerabilities](https://snyk.io/test/github/worie/btt-node/badge.svg)](https://snyk.io/test/github/worie/btt-node)
+# btt-node 
+<p align="center"><img width="100" src="https://user-images.githubusercontent.com/6313514/42529852-d9c76ab0-847f-11e8-8d8c-323d1d995b2d.png" alt="Package logo"></p>
 
-
-[![NPM](https://nodei.co/npm/btt-node.png?downloads=true&downloadRank=true)](https://nodei.co/npm/btt-node/)
-
-Easier way to manage your BetterTouchTool in JavaScript.
+<p align="center">
+  <img src="https://badge.fury.io/js/btt-node.svg" alt="Package version">
+  <img src="https://snyk.io/test/github/worie/btt-node/badge.svg" alt="Vunerabilities"></p>
+<p align="center">
+  <a href="https://nodei.co/npm/btt-node/">
+  <img src="https://nodei.co/npm/btt-node.png?downloads=true&downloadRank=true" alt="Vunerabilitiesn"></a>
+</p><p align="center"><h2 align="center">Manage your BetterTouchTool in JavaScript, easly.
+</h2></p>
 
 # Important notice!
 This package will be soon renamed to [btt](https://github.com/Worie/btt), making this repository archived and `btt-node` deprecated.
