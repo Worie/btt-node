@@ -14,7 +14,7 @@
 This package will be soon renamed to [btt](https://github.com/Worie/btt), making this repository archived and `btt-node` deprecated.
 
 ## About 
-This package is a handy wrapper over BetterTouchTool built in webserver API. (by [@Andreas Hegenberg](https://github.com/fifafu))
+This package is a handy wrapper over [BetterTouchTool](https://folivora.ai/) built in webserver API. (by [@Andreas Hegenberg](https://github.com/fifafu))
 
 This package will allow you to automate you MacOS-running machine using JavaScript. You'll be able to:
 
