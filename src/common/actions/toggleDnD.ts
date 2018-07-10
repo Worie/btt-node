@@ -2,7 +2,7 @@ import * as Types from '../../../types';
 import { Action } from '../../common/action';
 
 /**
- * This action is responsible for toggling do not disturb mode
+ * This action is responsible for toggling do not disturb mode on target Mac
  */
 export default class AToggleDnD extends Action { 
   // reference name

@@ -3,7 +3,7 @@ import { Action } from '../../common/action';
 import * as uuidv4 from 'uuid/v4';
 
 /**
- * This action is responsible for disabling / enabling BTT. Does not affect this library or webserver
+ * This action is responsible for showing a web view of specified URL or inline code.
  */
 export default class AShowWebView extends Action {
   // reference name

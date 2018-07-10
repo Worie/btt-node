@@ -3,7 +3,7 @@ import * as Types from '../../../types';
 import { Action } from '../../common/action';
 
 /**
- * This action is responsible for disabling / enabling BTT. Does not affect this library or webserver
+ * This action is responsible for triggering a keyboard shortcut - for example, cmd+space for spotlight 
  */
 export default class ATriggerShortcut extends Action {
   // reference name

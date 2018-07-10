@@ -2,7 +2,7 @@ import * as Types from '../../../types';
 import { Action } from '../../common/action';
 
 /**
- * This action is responsible for disabling / enabling BTT. Does not affect this library or webserver
+ * This action is responsible for quitting the BetterTouchTool completely
  */
 export default class AQuitBTT extends Action { 
   // reference name

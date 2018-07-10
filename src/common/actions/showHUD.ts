@@ -2,7 +2,8 @@ import * as Types from '../../../types';
 import { Action } from '../../common/action';
 
 /**
- * This action is responsible for disabling / enabling BTT. Does not affect this library or webserver
+ * This action is responsible for showing a BetterTouchTool HUD. 
+ * The HUD cannot be blocked by do-not-disturb mode or anything and it cannot be closed - it'll fade out on its own
  */
 export default class AShowHUD extends Action { 
   // reference name

@@ -11,7 +11,7 @@ if (DetectNode) {
 }
 
 /**
- * This action is responsible for disabling / enabling BTT. Does not affect this library or webserver
+ * This action is responsible for toggling the visibility of specified application
  */
 export default class AToggleApplication extends Action { 
   // reference name

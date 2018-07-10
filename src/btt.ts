@@ -34,6 +34,7 @@ import AShowWebView from './common/actions/showWebView';
 
 /**
  * Class used to manage the BTT webserver 
+ * @constructor IBTTConfig
  */
 export class Btt {
   // state, manages BTT variables
@@ -70,8 +71,8 @@ export class Btt {
   /**
    * Adds event listener to BTT. Keep in mind this is persistent, so if you call this method twice, 
    * two entries will be added to BTT. Closing the browser / node process won't make the listeners die
-   * @param eventType 
-   * @param cb 
+   * @param eventType string, created from action enum identifier
+   * @param cb IEventCallback
    */
   public addEventListener(eventType: string, cb: (e: Types.IEventCallback) => {}): void {
     const actions: Action[] = [];
@@ -115,8 +116,8 @@ export class Btt {
 
   /**
    * Removes event listener
-   * @param eventType 
-   * @param cb 
+   * @param eventType string, created from action enum identifier
+   * @param cb IEventCallback
    */
   public removeEventListener(eventType: string, cb: (e: any) => {}): void {    
     // get the id from event type, callback and everything

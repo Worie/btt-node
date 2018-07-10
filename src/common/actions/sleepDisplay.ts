@@ -2,7 +2,7 @@ import * as Types from '../../../types';
 import { Action } from '../../common/action';
 
 /**
- * This action is responsible for disabling / enabling BTT. Does not affect this library or webserver
+ * This action is responsible for sleeping the display
  */
 export default class ASleepDisplay extends Action { 
   // reference name

@@ -8,6 +8,7 @@ export class Trigger {
   // holds the name of the newly created / initialized trigger
   private name: string;
 
+  // holds the config of the current instance
   private config: Types.IBTTConfig;
   
   /**

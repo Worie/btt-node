@@ -3,7 +3,8 @@ import * as CommonUtils from '../common/util';
 import * as Url from 'url';
 
 /**
- * Every action implementation derives from this class
+ *  Basic structure and methods for all Actions
+ *  Every action implementation derives from this class, should not be called directly
  */
 export abstract class Action {
   protected config: Types.IBTTConfig;

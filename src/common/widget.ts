@@ -13,7 +13,9 @@ export class Widget {
   // stores the default update behaviour of the widget
   private default: Function;    
 
+  // holds the config of the current instance
   private config: Types.IBTTConfig;
+
   /**
    * Creates an instance representing BTT Widget
    * @param {*} config 
@@ -74,14 +76,24 @@ export class Widget {
   }
 };
 
-
+/**
+ * Creates Widget class instance with given config
+ */
 export class FWidget {
   private config: Types.IBTTConfig;
 
+  /**
+   * Takes an IBTTConfig as a constructor parameter
+   * @param config 
+   */
   public constructor(config: Types.IBTTConfig) {
     this.config = config;
   }
 
+  /**
+   * Returns a new Widget class instance and automatically passes the current btt instance config
+   * @param config 
+   */
   public get(config: Types.IWidgetConfig): Widget {
     return new Widget(this.config, config);
   } 

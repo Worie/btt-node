@@ -12,7 +12,7 @@ if (DetectNode) {
 }
 
 /**
- * This action is responsible for disabling / enabling BTT. Does not affect this library or webserver
+ * This action is responsible for sending shortcut to specific application
  */
 export default class ASendShortcut extends Action { 
   // reference name

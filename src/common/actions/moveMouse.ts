@@ -3,7 +3,7 @@ import * as Types from '../../../types';
 import { Action } from '../../common/action';
 
 /**
- * This action is responsible for disabling / enabling BTT. Does not affect this library or webserver
+ * This action is responsible for moving mouse to specified position on the same monitor
  */
 export default class AMoveMouse extends Action { 
   // reference name

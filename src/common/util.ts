@@ -175,6 +175,11 @@ function getTriggerClassProperty(value: number): string {
   // }
 }
 
+/**
+ * Takes a namespace as a parameter and a text, to generate an UUID (uuidv5)
+ * @param text 
+ * @param namespace 
+ */
 export function generateUuidForString(text: string, namespace: string): string {
   return uuidv5(String(text), namespace);
 }

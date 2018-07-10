@@ -2,7 +2,7 @@ import * as Types from '../../../types';
 import { Action } from '../../common/action';
 
 /**
- * This action is responsible for disabling / enabling BTT. Does not affect this library or webserver
+ * This action is responsible for locking the screen of your Mac
  */
 export default class ALockScreen extends Action { 
   // reference name
