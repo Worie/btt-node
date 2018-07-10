@@ -1,3 +1,4 @@
+import { deprecate } from 'core-decorators';
 import * as CommonUtils from '../common/util';
 import * as Types from '../../types';
 
@@ -29,6 +30,7 @@ export class Trigger {
    * Calls the given trigger. Based on the data it was constructed with
    * the method of invoke varies
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   invoke(): Promise<void> {
     // if this is a named trigger
     if (this.name) {
@@ -54,6 +56,7 @@ export class Trigger {
    * Updates the trigger data with given JSON
    * @param {*} data 
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   update(data: any): Promise<void> {
     if (!data) {
       console.warn('No update data passed to Trigger');

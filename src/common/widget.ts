@@ -1,3 +1,5 @@
+import { deprecate } from 'core-decorators';
+
 /**
  * Represents a BTT TouchBar Widget.
  * For "typings structure" refer to the https://github.com/Microsoft/TypeScript/issues/13462#issuecomment-295685298
@@ -34,6 +36,7 @@ export class Widget {
    * Updates the current widget with given data
    * @param {*} data 
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   async update(data?: any): Promise<void> {
     // if there was no data passed, nor there was no default fallback
     if (!data && !this.default) {
@@ -62,6 +65,7 @@ export class Widget {
   /**
    * Refreshes current widget
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public async refresh(): Promise<void> {
     return CommonUtils.makeAction('refresh_widget', { uuid: this.uuid }, this.config);
   }
@@ -69,6 +73,7 @@ export class Widget {
   /**
    * Triggers the widget
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public async click(): Promise<void> {
     return CommonUtils.makeAction('execute_assigned_actions_for_trigger', {
       uuid: this.uuid,

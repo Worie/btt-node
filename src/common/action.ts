@@ -1,3 +1,4 @@
+import { deprecate } from 'core-decorators';
 import * as Types from "../../types";
 import * as CommonUtils from '../common/util';
 import * as Url from 'url';
@@ -48,6 +49,7 @@ export abstract class Action {
   /**
    * Calls the prepared actions
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public async invoke(): Promise<any> {
     return CommonUtils.makeAction(
       'trigger_action', 

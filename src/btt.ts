@@ -1,3 +1,4 @@
+import { deprecate } from 'core-decorators';
 import { FTrigger } from './common/trigger';
 import { FWidget } from './common/widget';
 import * as State from './common/state';
@@ -74,6 +75,7 @@ export class Btt {
    * @param eventType string, created from action enum identifier
    * @param cb IEventCallback
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public addEventListener(eventType: string, cb: (e: Types.IEventCallback) => {}): void {
     const actions: Action[] = [];
     let comment: string = '';
@@ -119,6 +121,7 @@ export class Btt {
    * @param eventType string, created from action enum identifier
    * @param cb IEventCallback
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public removeEventListener(eventType: string, cb: (e: any) => {}): void {    
     // get the id from event type, callback and everything
     const triggerID: string = CommonUtils.generateUuidForString(
@@ -132,6 +135,7 @@ export class Btt {
   /**
    * Sends a request to real BTT built in webserver with given data translated as GET query params
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public do(action: string, data: Record<string, any>): Promise<any> {
     return CommonUtils.makeAction(action, data, this.config);
   }
@@ -161,6 +165,7 @@ export class Btt {
   /**
    * Toggles do not disturb mode
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public toggleDnD() {
     return new AToggleDnD(this.config);
   }
@@ -168,6 +173,7 @@ export class Btt {
   /**
    * Toggles night shift
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public toggleNightShift() {
     return new AToggleNightShift(this.config);
   }
@@ -176,6 +182,7 @@ export class Btt {
    * Triggers system wide keyboard shortcut
    * @param shortcut key identifiers separated by space
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public triggerShortcut(shortcut: string) {
     return new ATriggerShortcut(this.config, shortcut);
   }
@@ -183,6 +190,7 @@ export class Btt {
   /**
    * Shows HUD with given config
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public showHUD(config: Types.IShowHUDConfig) {
     return new AShowHUD(this.config, config);
   }
@@ -190,6 +198,7 @@ export class Btt {
   /**
    * Sends / Types / Inserts / Pastes custom text
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public sendText(config: Types.ISendTextConfig) {
     return new ASendText(this.config, config);
   }
@@ -201,6 +210,7 @@ export class Btt {
    * 
    * @param hapticMode a number representing each mode.
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public hapticFeedback(hapticMode: number) {
     return new AHapticFeedback(this.config, hapticMode);
   }
@@ -208,6 +218,7 @@ export class Btt {
   /**
    * Open an application on the given path
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public launchApplication(applicationPath: string) {
     return new ALaunchApplication(this.config, applicationPath);
   }
@@ -215,6 +226,7 @@ export class Btt {
   /**
    * Toggles the visibility of given application
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public toggleApplication(applicationPath: string) {
     return new AToggleApplication(this.config, applicationPath);
   }
@@ -222,6 +234,7 @@ export class Btt {
   /**
    * Toggles the mute state in the system
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public mute() {
     return new AMute(this.config);
   }
@@ -229,6 +242,7 @@ export class Btt {
   /**
    * Starts Siri
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public startSiri() {
     return new AStartSiri(this.config);
   }
@@ -236,6 +250,7 @@ export class Btt {
   /**
    * Toggles the BetterTouchTool gesture recognition
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public toggle() {
     return new AToggleBTT(this.config);
   }
@@ -246,6 +261,7 @@ export class Btt {
    * 
    * @param timeout - time in miliseconds during any action execution will be delayed
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public delayNextAction(timeout: number) {
     return new ADelayNextAction(this.config, timeout);
   }
@@ -253,6 +269,7 @@ export class Btt {
   /**
    * Moves mouse to specified position
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public moveMouse(config: Types.IMoveMouseConfig) {
     return new AMoveMouse(this.config, config);
   }
@@ -260,6 +277,7 @@ export class Btt {
   /**
    * Toggles the mouse speed between a regular and speeded up one
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public toggleMouseSpeed() {
     return new AToggleMouseSpeed(this.config);
   }
@@ -267,6 +285,7 @@ export class Btt {
   /**
    * Toggles mouse cursor visibility
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public toggleMouseCursor() {
     return new AToggleMouseCursor(this.config);
   }
@@ -274,6 +293,7 @@ export class Btt {
   /**
    * Toggles between the big and regular mouse cursor size
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public toggleMouseSize() {
     return new AToggleMouseSize(this.config);
   }
@@ -281,6 +301,7 @@ export class Btt {
   /**
    * Toggles the system dark mode 
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public toggleDarkMode() {
     return new AToggleDarkMode(this.config);
   }
@@ -288,6 +309,7 @@ export class Btt {
   /**
    * Opens a web view
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public showWebView(config: Types.IShowWebViewConfig) {
     return new AShowWebView(this.config, config);
   }
@@ -295,6 +317,7 @@ export class Btt {
   /**
    * Locks the screen
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public lockScreen() {
     return new ALockScreen(this.config);
   }
@@ -302,6 +325,7 @@ export class Btt {
   /**
    * Logouts current user
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public logout() {
     return new ALogout(this.config);
   }
@@ -309,6 +333,7 @@ export class Btt {
   /**
    * Sleeps computer display
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public sleepDisplay() {
     return new ASleepDisplay(this.config);
   }
@@ -316,6 +341,7 @@ export class Btt {
   /**
    * Sleeps computer
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public sleepComputer() {
     return new ASleepComputer(this.config);
   }
@@ -323,6 +349,7 @@ export class Btt {
   /**
    * Restarts BetterTouchTool
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public restart() {
     return new ARestartBTT(this.config);
   }
@@ -330,6 +357,7 @@ export class Btt {
   /**
    * Quits BetterTouchTool
    */
+  @deprecate('Package renamed. Please use btt instead', { url: 'https://github.com/worie/btt' })
   public quit() {
     return new AQuitBTT(this.config);
   }
