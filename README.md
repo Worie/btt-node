@@ -102,15 +102,15 @@ You can visit the docs [here](#).
 Keep in mind that this module only provides handy utility functions that underneath sends request to BTT built in webserver.
 So depending on your BTT version some actions may be glitchy. Do not hestitate to report those issues here or in [official BTT community forum](https://community.folivora.ai/categories).
 
-## License
-
-[MIT](http://opensource.org/licenses/MIT)
-
-Copyright (c) 2018-present, Wojtek Połowniak
-
 ### Related projects:
 
 * [btt](https://github.com/Worie/btt) - BetterTouchTool management in JS
 * [btt-json-loader](https://github.com/Worie/btt-json-loader) - JSON loader for BTT
 * [btt-node](https://github.com/Worie/btt-node) Premature version of [btt](https://github.com/Worie/btt)
 * [btt-touchbar-widgets](https://github.com/Worie/btt-touchbar-widgets) - Working touchbar widgets, based on [btt](https://github.com/Worie/btt)
+
+## License
+
+[MIT](http://opensource.org/licenses/MIT)
+
+Copyright (c) 2018-present, Wojtek Połowniak
