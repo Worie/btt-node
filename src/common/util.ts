@@ -35,14 +35,28 @@ export function makeAction(
   config: Types.IBTTConfig,
 ): Promise<any> {
   try {
-    const parameters = `?${params(data, config.sharedKey)}`;
+    const parameters = params(data, config.sharedKey);
     const url = getUrl(config);
-    const urlToFetch = `${url}${action}/${parameters}`;
+    const urlToFetch = buildFullUrl(action, parameters, url);
     
     return fetch(urlToFetch);
   } catch (error) {
     console.error(error);
   }
+}
+
+/**
+ * Builds the url that'll trigger desired action
+ * @param action 
+ * @param params 
+ * @param baseUrl 
+ */
+export function buildFullUrl(
+  action: string, 
+  params: string,
+  baseUrl: string
+): string {
+  return `${baseUrl}${action}/?${params}`;
 }
 
 /**
