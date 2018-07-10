@@ -70,21 +70,25 @@ btt.triggerShortcut('cmd+space').invoke()
 
 // creates a trigger in BetterTouchTool. Keep in mind that this is persistent until you manually delete it!
 btt.addEventListener('oneFingerForceClick', (ev) => {
+
   // create a list of actions that you want to perform on single finger force click
   const actionsToInvoke = [
     btt.showHUD({
       title: 'Awesome!',
       details: 'I triggered!',
-    });
+    }),
   ];
   
   // and push them to `actions` property in the event object.
   ev.actions.push(...actionsToInvoke);
 });
 
+// get the url of the action - can be assigned to <a> element for example, and once clicked - will perform given action
+console.log(btt.triggerShortcut('cmd+space').url);
 
 // you can also delete an event listener - trigger: 
 btt.removeEventListener('oneFingerForceClick', callbackFuntion);
+
 ```
 
 For more advanced examples you can visit [the example section](#)
@@ -93,14 +97,16 @@ For more advanced examples you can visit [the example section](#)
 
 You can visit the docs [here](#).
 
-## Testing
-
-`npm run test` 
-
 ## Notice
 
 Keep in mind that this module only provides handy utility functions that underneath sends request to BTT built in webserver.
 So depending on your BTT version some actions may be glitchy. Do not hestitate to report those issues here or in [official BTT community forum](https://community.folivora.ai/categories).
+
+## License
+
+[MIT](http://opensource.org/licenses/MIT)
+
+Copyright (c) 2018-present, Wojtek Połowniak
 
 ### Related projects:
 
